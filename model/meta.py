@@ -48,11 +48,11 @@ class StockMeta(metaclass=SingletonMeta):
     def __init__(self):
         self._metrics = {}
 
-    def add_Metrics(self, meta: MetricsMeta):
+    def addmetrics(self, meta: MetricsMeta):
         self._metrics[meta.get_name()] = meta
 
-    def all_Metrics(self):
+    def allmetrics(self):
         return self._metrics
 
-    def get_Metrics(self, name: str) -> MetricsMeta:
+    def getmetrics(self, name: str) -> MetricsMeta:
         return self._metrics[name]

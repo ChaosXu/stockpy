@@ -22,4 +22,4 @@ class Stock(ExprCtx):
         Returns:
             metrics value
         """
-        return self.get_meta().get_Metrics(name).get_expr().eval(self, year, quarter)
+        return self.get_meta().getmetrics(name).get_expr().eval(self, year, quarter)
