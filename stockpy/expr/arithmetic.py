@@ -1,6 +1,5 @@
-from model.meta import Expr
-from model.meta import ExprCtx
-from model.meta import Value
+from stockpy.expr.base import Expr
+from stockpy.expr.base import ExprCtx
 
 
 class ArithmeticExpr(Expr):

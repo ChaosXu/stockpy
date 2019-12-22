@@ -1,10 +1,10 @@
-from model.meta import Expr
-from model.meta import ExprCtx
-from model.expr.get import Get
+from stockpy.expr.base import Expr
+from stockpy.expr.base import ExprCtx
+from stockpy.expr.get import Get
 
 
 class Range(Expr):
-    """range metrics of the last n years"""
+    '''range metrics of the last n years'''
 
     def __init__(self, metrics: Get, count: int):
         self._metrics = metrics

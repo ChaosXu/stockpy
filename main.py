@@ -1,4 +1,4 @@
-from model.stock import Stock
+from stockpy.model.stock import Stock
 
 def main():
     pass

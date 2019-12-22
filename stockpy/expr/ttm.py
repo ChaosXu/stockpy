@@ -1,10 +1,10 @@
-from model.meta import Expr
-from model.meta import ExprCtx
-from model.expr.get import Get
+from stockpy.expr.base import Expr
+from stockpy.expr.base import ExprCtx
+from stockpy.expr.get import Get
 
 
 class TTM(Expr):
-    """Sum of the last 4 quarters"""
+    '''Sum of the last 4 quarters'''
 
     def __init__(self, metrics: Get):
         self._metrics = metrics
@@ -14,7 +14,7 @@ class TTM(Expr):
         sum = 0.0
         for y, qs in yq.items():
             for q in qs:
-                sum += self._metrics.eval(stock, y, q)              
+                sum += self._metrics.eval(stock, y, q)
         return sum
 
     def _quarters(self, year: int, quarter: int):

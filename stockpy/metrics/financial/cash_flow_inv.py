@@ -1,14 +1,14 @@
-from model.meta import MetricsMeta
-from model.meta import Value
-from model.expr.arithmetic import Sum
-from model.expr.arithmetic import Div
-from model.expr.arithmetic import Sub
-from model.expr.range import Range
-from model.expr.get import Get
+from stockpy.meta import MetricsMeta
+from stockpy.expr.value import Value
+from stockpy.expr.arithmetic import Sum
+from stockpy.expr.arithmetic import Div
+from stockpy.expr.arithmetic import Sub
+from stockpy.expr.range import Range
+from stockpy.expr.get import Get
 
 
 def metrics():
-    """Cash flow from investing activities"""
+    '''Cash flow from stockpy.investing activities'''
     metas = [
         # 自由现金流 = 经营活动产生的现金流净额-购建固定资产、无形资产和其他长期资产支付的现金
         MetricsMeta("f_cashflow_free",

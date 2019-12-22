@@ -1,11 +1,11 @@
-from model.meta import MetricsMeta
-from model.meta import Value
-from model.expr.arithmetic import Sum
-from model.expr.arithmetic import Div
-from model.expr.arithmetic import Sub
-from model.expr.ttm import TTM
-from model.expr.range import Range
-from model.expr.get import Get
+from stockpy.meta import MetricsMeta
+from stockpy.expr.value import Value
+from stockpy.expr.arithmetic import Sum
+from stockpy.expr.arithmetic import Div
+from stockpy.expr.arithmetic import Sub
+from stockpy.expr.ttm import TTM
+from stockpy.expr.range import Range
+from stockpy.expr.get import Get
 
 
 def metrics():

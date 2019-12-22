@@ -1,14 +1,14 @@
-from model.meta import MetricsMeta
-from model.meta import Value
-from model.expr.arithmetic import Sum
-from model.expr.arithmetic import Div
-from model.expr.arithmetic import Sub
-from model.expr.range import Range
-from model.expr.get import Get
+from stockpy.meta import MetricsMeta
+from stockpy.expr.value import Value
+from stockpy.expr.arithmetic import Sum
+from stockpy.expr.arithmetic import Div
+from stockpy.expr.arithmetic import Sub
+from stockpy.expr.range import Range
+from stockpy.expr.get import Get
 
 
 def metrics():
-    """net operating cycle"""
+    '''net operating cycle'''
 
     metas = [
         # 净营业周期=存货周转天数+应收账款周转天数+预付账款周转天数-应付账款周转天数-预收账款周转天数

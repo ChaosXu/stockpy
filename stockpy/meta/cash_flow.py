@@ -1,5 +1,5 @@
-from model.stock import MetricsMeta
-from model.expr.crawl import Crawl
+from stockpy.meta import MetricsMeta
+from stockpy.expr.crawl import Crawl
 
 
 def metrics():

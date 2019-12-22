@@ -1,5 +1,5 @@
-from model.stock import MetricsMeta
-from model.expr.crawl import Crawl
+from stockpy.meta import MetricsMeta
+from stockpy.expr.crawl import Crawl
 
 
 def metrics():
@@ -192,7 +192,7 @@ def metrics():
         MetricsMeta("defer_tax_liab", Crawl("defer_tax_liab")),
         # defer_inc_non_cur_liab	float	Y	递延收益-非流动负债
         MetricsMeta("defer_inc_non_cur_liab",
-                      Crawl("defer_inc_non_cur_liab")),
+                    Crawl("defer_inc_non_cur_liab")),
         # oth_ncl	float	Y	其他非流动负债
         MetricsMeta("oth_ncl", Crawl("oth_ncl")),
         # total_ncl	float	Y	非流动负债合计
@@ -243,10 +243,10 @@ def metrics():
         MetricsMeta("minority_int", Crawl("deferminority_int_tax_liab")),
         # total_hldr_eqy_exc_min_int	float	Y	股东权益合计(不含少数股东权益)
         MetricsMeta("total_hldr_eqy_exc_min_int",
-                      Crawl("total_hldr_eqy_exc_min_int")),
+                    Crawl("total_hldr_eqy_exc_min_int")),
         # total_hldr_eqy_inc_min_int	float	Y	股东权益合计(含少数股东权益)
         MetricsMeta("total_hldr_eqy_inc_min_int",
-                      Crawl("total_hldr_eqy_inc_min_int")),
+                    Crawl("total_hldr_eqy_inc_min_int")),
         # total_liab_hldr_eqy	float	Y	负债及股东权益总计
         MetricsMeta("total_liab_hldr_eqy", Crawl("total_liab_hldr_eqy")),
         # lt_payroll_payable	float	Y	长期应付职工薪酬

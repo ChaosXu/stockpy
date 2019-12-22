@@ -1,16 +1,16 @@
-from model.meta import Expr
-from model.meta import ExprCtx
+from stockpy.expr.base import Expr
+from stockpy.expr.base import ExprCtx
 
 
 class Get(Expr):
-    """Get a metrics value  from the statements in the local stock cache"""
+    '''Get a metrics value  from stockpy.the statements in the local stock cache'''
 
     def __init__(self, name: str, past_year=0):
-        """
+        '''
         Args:
             name: metrics name
             past_year: metrcs value before the past n year. 
-        """
+        '''
         self._name = name
         self._past_year = past_year
 

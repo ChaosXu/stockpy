@@ -1,5 +1,5 @@
-from model.stock import MetricsMeta
-from model.expr.crawl import Crawl
+from stockpy.meta import MetricsMeta
+from stockpy.expr.crawl import Crawl
 
 
 def metrics():
@@ -62,7 +62,7 @@ def metrics():
         MetricsMeta("fin_exp", Crawl("fin_exp")),
         # assets_impair_loss	float	Y	减:资产减值损失
         MetricsMeta("reveassets_impair_lossnue",
-                      Crawl("assets_impair_loss")),
+                    Crawl("assets_impair_loss")),
         # prem_refund	float	Y	退保金
         MetricsMeta("prem_refund", Crawl("prem_refund")),
         # compens_payout	float	Y	赔付总支出
