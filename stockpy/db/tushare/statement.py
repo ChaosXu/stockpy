@@ -338,7 +338,7 @@ class Statement:
 
     def __load_data(self, ts_code, stat, year, quarter):
         data = self.__cache.get(self.__file(ts_code, stat, year, quarter))
-        if data == None:
+        if data is None:
             data = self.__client.query(
                 self.__stat(stat), fields=self.__fields(stat), ts_code=ts_code, period=self.__period(year, quarter))
             self.__cache.save(self.__file(ts_code, stat, year, quarter), data)
