@@ -1,13 +1,11 @@
 from stockpy.db.tushare.client import Client
 from stockpy.db.cache import DataFrameCache
-from stockpy.model.stock import Stock
+from stockpy.model.stock import Stocks
 from stockpy.db.tushare.statement import Statement
-import pandas as pd
 
 
 class StockDb:
-    ''' Stock:
-        ts_code,
+    __fields = ''' ts_code,
         symbol,
         name,
         area,
@@ -32,21 +30,10 @@ class StockDb:
         data = self.__cache.get('stock_basic')
         if data is None:
             data = self.__client.query(
-                'stock_basic', list_stauts='L')
+                'stock_basic', fields=self.__fields, list_stauts='L')
             self.__cache.save('stock_basic', data)
         return Stocks(self.__statement, data)
 
     @property
     def statement(self):
         return self.__statement
-
-
-class Stocks():
-
-    def __init__(self, stat, data: pd.DataFrame):
-        self.__data = data
-        self.__stat = stat
-
-    def __iter__(self):
-        for index, row in self.__data.iterrows():
-            yield Stock(self.__stat, row)

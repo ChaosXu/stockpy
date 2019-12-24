@@ -8,9 +8,7 @@ class TestStatement(unittest.TestCase):
     def test_balancesheet(self):
         db = StockDb(**config.opts)
         stocks = db.list()
-        for stock in stocks:
-            # print(stock['ts_code'])
-            print(stock.ts_code)
+        stocks.to_excel(config.opts['to_excel_path'])
         data = db.statement.metrics(
             '000001.SZ', 'balancesheet', 'report_type', 2019, 3)
 

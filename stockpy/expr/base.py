@@ -16,4 +16,3 @@ class Expr:
 
     def eval(self, stock: ExprCtx, year: int, quarter: int):
         pass
-

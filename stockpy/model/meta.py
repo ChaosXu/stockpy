@@ -1,8 +1,8 @@
+class MetricsLoaderMixin:
+    pass
 
-# from stockpy import dpi
 
-
-class StockMeta(type):
+class StockMeta(type, MetricsLoaderMixin):
 
     def __new__(cls, *args, **kwargs):
         return type.__new__(cls, *args, **kwargs)

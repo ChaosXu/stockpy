@@ -22,7 +22,8 @@ class Statement(IStat):
         self.__client = Client(**opts['data_provider'])
         self.__cache = DataFrameCache(**opts['data_cache'])
 
-    def metrics(self, ts_code: str, stat: str, name: str, year: int, quarter: int):
+    def metrics(self, ts_code: str, stat: str, name: str,
+                year: int, quarter: int):
         data = self.__load_data(ts_code, stat, year, quarter)
         return data[name]
 
@@ -30,7 +31,8 @@ class Statement(IStat):
         data = self.__cache.get(self.__file(ts_code, stat, year, quarter))
         if data is None:
             data = self.__client.query(
-                self.__stat(stat), ts_code=ts_code, period=self.__period(year, quarter))
+                self.__stat(stat), ts_code=ts_code,
+                period=self.__period(year, quarter))
             self.__cache.save(self.__file(ts_code, stat, year, quarter), data)
         return data
 
