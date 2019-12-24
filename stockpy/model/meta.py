@@ -12,7 +12,7 @@ class StockMeta(type):
 
     def __call__(cls, *args, **kwargs):
         obj = cls.__new__(cls, *args, **kwargs)
-        cls.__init__(obj, **kwargs)
+        cls.__init__(obj, *args)
         # cls.load_metrics(obj)
         return obj
 

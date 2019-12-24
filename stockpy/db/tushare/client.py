@@ -1,5 +1,6 @@
 import requests
 import simplejson as json
+import pandas as pd
 
 
 class Client:
@@ -22,8 +23,5 @@ class Client:
         result = json.loads(res.text)
         if result['code'] != 0:
             raise Exception(result['msg'])
-        data = result['data']
-        # columns = data['fields']
-        # items = data['items']
-        return data
-        
+        data = result['data']        
+        return pd.DataFrame(data['items'], columns=data['fields'])
