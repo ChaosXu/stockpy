@@ -11,6 +11,18 @@ class ExprCtx:
         '''
         pass
 
+    def crawl_metrics(self, stat: str, name: str, year: int, quarter: int):
+        '''crawl metrics value from outer source
+        Args:
+            stat: statement name
+            name: metrics name
+            year: report year
+            quarter: report quarter.from stockpy.1 to 4
+        Returns:
+            metrics value
+        '''
+        pass
+
 
 class Expr:
 

@@ -1,19 +1,15 @@
-# from stockpy.model.meta import StockMeta
-# from stockpy.model.meta import MetricsMeta
-# from stockpy.model.metrics.statements import income
-# from stockpy.model.metrics.statements import balance_sheet
-# from stockpy.model.metrics.statements import cash_flow
-# from stockpy.model.metrics.financial import inventory
-# from stockpy.model.metrics.valuation import goose
+from stockpy.metrics.base import MetricsMeta, MetricsMixin, g_metrics
+from stockpy.metrics.statements import balance_sheet, income, cash_flow
 
 
-# def load_metrics(stock_meta: StockMeta, metrics: [MetricsMeta]):
-#     for m in metrics:
-#         stock_meta.addmetrics(m)
+def load_metrics(metrics_metas, metrics: [MetricsMeta]):
+    for m in metrics:
+        metrics_metas[m.name] = m
 
 
-# load_metrics(StockMeta(), income.metrics())
-# load_metrics(StockMeta(), balance_sheet.metrics())
-# load_metrics(StockMeta(), cash_flow.metrics())
+load_metrics(g_metrics, income.metrics())
+load_metrics(g_metrics, balance_sheet.metrics())
+load_metrics(g_metrics, cash_flow.metrics())
+
 # load_metrics(StockMeta(), inventory.metrics())
 # load_metrics(StockMeta(), goose.metrics())

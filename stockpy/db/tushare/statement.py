@@ -2,6 +2,7 @@ from stockpy.db.cache import DataFrameCache
 from stockpy.db.tushare.client import Client
 from stockpy.model.statement import Statement as IStat
 import pandas as pd
+import os
 
 
 class Statement(IStat):
@@ -26,6 +27,25 @@ class Statement(IStat):
                 year: int, quarter: int):
         data = self.__load_data(ts_code, stat, year, quarter)
         return data[name]
+
+    def to_excel(self, path: str, ts_code: str, year: int, quarter: int):
+        ds = {}
+        for k, v in self.__stat_name.items():
+            ds[k] = self.__load_data(ts_code, v, year, quarter)
+
+        def to_file():
+            with pd.ExcelWriter(path+r'/'+ts_code+'_statements.xlsx',
+                                date_format='YYYY-MM-DD',
+                                datetime_format='YYYY-MM-DD HH:MM:SS'
+                                ) as writer:
+                for k, v in ds.items():
+                    v.to_excel(writer, sheet_name=k)
+
+        try:
+            to_file()
+        except FileNotFoundError:
+            os.makedirs(os.path.dirname(path))
+            to_file()
 
     def __load_data(self, ts_code, stat, year, quarter) -> pd.DataFrame:
         data = self.__cache.get(self.__file(ts_code, stat, year, quarter))
