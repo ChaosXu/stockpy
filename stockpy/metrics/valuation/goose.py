@@ -1,5 +1,5 @@
 from stockpy.meta import MetricsMeta
-from stockpy.expr import Value, Sum, Div, Get, Range
+from stockpy.expr import Value, Sum, Div, Get, Range, Before
 
 
 def metrics():
@@ -12,7 +12,8 @@ def metrics():
                     Div(Get('f_income.ttm'),
                         Div(
                             Sum(Get('total_hldr_eqy_inc_min_int'),
-                                Get('total_hldr_eqy_inc_min_int', 1)
+                                Before(Get('total_hldr_eqy_inc_min_int'),
+                                       past_quarter=4),
                                 ),
                             Value(2))))
     ]

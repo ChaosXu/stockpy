@@ -1,7 +1,7 @@
 from stockpy.model.meta import StockMeta
 from stockpy.model.statement import Statement, StatementMixin
 from stockpy.metrics import MetricsMixin
-from stockpy.expr import ExprCtx
+from stockpy.expr import ExprCtx, BooleanExpr
 import pandas as pd
 import os
 
@@ -25,6 +25,9 @@ class Stock(ExprCtx, MetricsMixin, StatementMixin, metaclass=StockMeta):
 
     def crawl_metrics(self, stat, name, year, quarter):
         return self.statement.metrics(self.__info['ts_code'], stat, name, year, quarter)
+
+    def valuate(self):
+        pass
 
 
 class Stocks():
@@ -52,3 +55,10 @@ class Stocks():
         except FileNotFoundError:
             os.makedirs(path)
             to_file()
+
+    def where(self, year: int, quarter: int, filter: BooleanExpr):
+        rs = []
+        for stock in self:
+            if filter.eval(stock, year, quarter) is True:
+                rs.append(stock)
+        return rs
