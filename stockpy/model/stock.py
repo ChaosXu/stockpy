@@ -1,7 +1,7 @@
 from stockpy.model.meta import StockMeta
 from stockpy.model.statement import Statement, StatementMixin
 from stockpy.metrics import MetricsMixin
-from stockpy.expr.base import ExprCtx
+from stockpy.expr import ExprCtx
 import pandas as pd
 import os
 

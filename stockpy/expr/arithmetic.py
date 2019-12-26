@@ -27,11 +27,11 @@ class Sum(Expr):
 class Sub(ArithmeticExpr):
 
     def __init__(self, *opds: Expr):
-        self.opds = opds
+        self.__opds = opds
 
     def eval(self, stock: ExprCtx, year: int, quarter: int):
-        sub = self.ops[0]*2
-        for opd in self.opds:
+        sub = self.__opds[0].eval(stock, year, quarter) * 2
+        for opd in self.__opds:
             sub -= opd.eval(stock, year, quarter)
         return sub
 

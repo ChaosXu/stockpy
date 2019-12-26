@@ -1,5 +1,5 @@
-from stockpy.expr.base import ExprCtx
-from stockpy.expr.base import Expr
+from stockpy.expr import ExprCtx
+from stockpy.expr import Expr
 
 
 g_metrics = {}
