@@ -54,25 +54,26 @@ def income_attr_p_gt_0():
     )
 
 
-# def bear1():
-#     return expr.And(
-#         expr.Gt(
-#             expr.Get('f_revenue.y2y'),
-#             expr.Get('f_accounts_receiv.y2y')),
-#         expr.Gt(
-#             expr.Before(expr.Get('f_revenue.y2y'), 4),
-#             expr.Before(expr.Get('f_accounts_receiv.y2y')), 4))
+def bear1_accounts_receive():
+    return expr.And(
+        expr.Gt(
+            expr.Before(expr.Get('f_revenue_y.y2y'), past_year=1),
+            expr.Before(expr.Get('f_accounts_receiv_y.y2y')), past_year=1),
+        expr.Gt(
+            expr.Before(expr.Get('f_revenue_y.y2y'), past_year=2),
+            expr.Before(expr.Get('f_accounts_receiv_y.y2y')), past_year=2)
+    )
 
 
-# def bear2():
-#     return expr.And(
-#         expr.Gt(
-#             expr.Get('f_revenue.y2y'),
-#             expr.Get('f_inventories.y2y')),
-#         expr.Gt(
-#             expr.Before(expr.Get('f_revenue.y2y'), 4),
-#             expr.Before(expr.Get('f_inventories.y2y')), 4))
-
+def bear2_inventories():
+    return expr.And(
+        expr.Gt(
+            expr.Before(expr.Get('f_revenue_y.y2y'), past_year=1),
+            expr.Before(expr.Get('f_inventories_y.y2y')), past_year=1),
+        expr.Gt(
+            expr.Before(expr.Get('f_revenue_y.y2y'), past_year=2),
+            expr.Before(expr.Get('f_inventories_y.y2y')), past_year=2)
+    )
 
 # def bear3():
 #     pass

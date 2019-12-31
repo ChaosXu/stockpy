@@ -1,5 +1,5 @@
 import unittest
-from tests import StockStub
+from tests import StockStub, StockMapStub
 from stockpy.metrics.finance import balance_sheet
 
 
@@ -27,24 +27,22 @@ class BalanceSheetTest(unittest.TestCase):
         v = m.expr.eval(stock, 2019, 4)
         self.assertEqual(4, v)
 
-    def test_f_inventories_y2y(self):
+    def test_f_current_y_r(self):
         data = {
-            2019: {
-                1: 5,
-                4: 8
+            'total_cur_assets': {
+                2019: {
+                    1: 2
+                }
             },
-            2018: {
-                1: 1,
-                4: 4
+            'total_cur_liab': {
+                2019: {
+                    1: 1
+                }
             }
         }
-        stock = StockStub(data)
-        m = balance_sheet.metrics()[1]
+        stock = StockMapStub(data)
+        m = balance_sheet.metrics()[4]
 
         # 2019.1 - 2018.1
         v = m.expr.eval(stock, 2019, 1)
-        self.assertEqual(4, v)
-
-        # 2019.4 - 2018.4
-        v = m.expr.eval(stock, 2019, 4)
-        self.assertEqual(4, v)
+        self.assertEqual(2/1, v)

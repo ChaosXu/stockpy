@@ -8,3 +8,12 @@ class StockStub(ExprCtx):
 
     def get_metrics(self, name: str, year: int, quarter: int):
         return self.__data[year][quarter]
+
+
+class StockMapStub(ExprCtx):
+
+    def __init__(self, data):
+        self.__data = data
+
+    def get_metrics(self, name: str, year: int, quarter: int):
+        return self.__data[name][year][quarter]

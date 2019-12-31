@@ -64,7 +64,7 @@ class Stocks:
         try:
             to_file()
         except FileNotFoundError:
-            os.makedirs(path)
+            os.makedirs(os.path.dirname(file_path))
             to_file()
 
     def queryByInfo(self, filter: BooleanExpr):

@@ -1,1 +1,1 @@
-from tests.stock_stub import StockStub
+from tests.stock_stub import StockStub, StockMapStub
