@@ -12,6 +12,7 @@ requests = "*"
 simplejson = "*"
 pandas = "*"
 openpyxl = "*"
+fire = "*"
 
 [requires]
 python_version = "3.7"

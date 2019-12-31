@@ -1,25 +1,23 @@
 import unittest
 from stockpy.db.tushare.stock import StockDb
 from tests.config import config
-from stockpy.expr import Gt
 
 
 class TestStock(unittest.TestCase):
 
-    def test_list(self):
-        db = StockDb(**config.opts)
-        stocks = db.list()
-        for stock in stocks:
-            self.assertIsNotNone(stock['ts_code'])
+    # def test_list(self):
+    #     db = StockDb(**config.opts)
+    #     stocks = db.list()
+    #     for stock in stocks:
+    #         self.assertIsNotNone(stock['ts_code'])
 
-    def test_where(self):
-        db = StockDb(**config.opts)
-        stocks = db.list()
-        filter = Gt()
-        horses = stocks.where(2019, 3, filter)
+    # def test_where(self):
+    #     db = StockDb(**config.opts)
+    #     stocks = db.list()
+    #     filter = Eq(Get('i_ts_code'), Value('000001.SZ'))
+    #     horses = stocks.where(filter)
 
-        for stock in horses:
-            self.assertIsNotNone(stock['ts_code'])
+    #     self.assertEqual(1, len(horses))
 
     # def test_balancesheet(self):
     #     db = StockDb(**config.opts)
@@ -38,12 +36,12 @@ class TestStock(unittest.TestCase):
     #     print('total_share:')
     #     print(v)
 
-    # def test_cashflow(self):
-    #     db = StockDb(**config.opts)
-    #     # stocks = db.list()
-    #     data = db.statement.metrics(
-    #         '000001.SZ', 'cashflow', 'report_type', 2019, 3)
-    #     print(data)
+    def test_cashflow(self):
+        db = StockDb(**config.opts)
+        # stocks = db.list()
+        data = db.statement.metrics(
+            '000001.SZ', 'cashflow', 'report_type', 2017, 3)
+        print(data)
 
     # def test_income(self):
     #     db = StockDb(**config.opts)

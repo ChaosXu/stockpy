@@ -1,6 +1,7 @@
 import os
 import simplejson as json
 import pandas as pd
+import threading as th
 
 
 class Cache:
@@ -41,12 +42,14 @@ class DataFrameCache(Cache):
 
     def __init__(self, **opts):
         super().__init__(**opts)
+        self.__lock = th.Lock()
 
     def get(self, type: str) -> pd.DataFrame:
-        try:
-            return pd.read_csv(self._file_path(type))
-        except FileNotFoundError:
-            return None
+        with self.__lock:
+            try:
+                return pd.read_csv(self._file_path(type))
+            except FileNotFoundError:
+                return None
 
     def save(self, type: str, data: pd.DataFrame):
         file_path = self._file_path(type)
@@ -54,8 +57,9 @@ class DataFrameCache(Cache):
         def do_save():
             data.to_csv(file_path)
 
-        try:
-            do_save()
-        except FileNotFoundError:
-            os.makedirs(os.path.dirname(file_path))
-            do_save()
+        with self.__lock:
+            try:
+                do_save()
+            except FileNotFoundError:
+                os.makedirs(os.path.dirname(file_path))
+                do_save()

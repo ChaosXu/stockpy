@@ -77,21 +77,25 @@ class Ge(BooleanExpr):
 
 class And(BooleanExpr):
 
-    def __init__(self, left: BooleanExpr, right: BooleanExpr):
-        super().__init__(left, right)
+    def __init__(self, *opds: BooleanExpr):
+        self.__opds = opds
 
     def eval(self, stock: ExprCtx, year: int, quarter: int):
-        lv = self._left.eval(stock, year, quarter)
-        rv = self._right.eval(stock, year, quarter)
-        return lv and rv
+        for opd in self.__opds:
+            if opd.eval(stock, year, quarter) is False:
+                return False
+
+        return True
 
 
 class Or(BooleanExpr):
 
-    def __init__(self, left: BooleanExpr, right: BooleanExpr):
-        super().__init__(left, right)
+    def __init__(self, *opds: BooleanExpr):
+        self.__opds = opds
 
     def eval(self, stock: ExprCtx, year: int, quarter: int):
-        lv = self._left.eval(stock, year, quarter)
-        rv = self._right.eval(stock, year, quarter)
-        return lv or rv
+        for opd in self.__opds:
+            if opd.eval(stock, year, quarter) is True:
+                return True
+
+        return False

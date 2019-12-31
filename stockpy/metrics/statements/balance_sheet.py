@@ -4,6 +4,7 @@ from stockpy.expr import Crawl
 
 def metrics():
     metas = [
+        MetricsMeta('ts_code', Crawl('balancesheet', 'ts_code')),
         # total_share	float	Y	期末总股本
         MetricsMeta('total_share', Crawl('balancesheet', 'total_share')),
         # cap_rese	float	Y	资本公积金

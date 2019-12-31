@@ -15,7 +15,7 @@ class BeforeGet(unittest.TestCase):
 
         stock = StockStub()
 
-        past = Before(Get('m'), 1)
+        past = Before(Get('m'), past_quarter=1)
         v = past.eval(stock, 2019, 1)
         self.assertEqual(1, v)
 
@@ -30,7 +30,7 @@ class BeforeGet(unittest.TestCase):
 
         stock = StockStub()
 
-        past = Before(Get('m'), 3)
+        past = Before(Get('m'), past_quarter=3)
         v = past.eval(stock, 2019, 4)
         self.assertEqual(1, v)
 
@@ -45,7 +45,7 @@ class BeforeGet(unittest.TestCase):
 
         stock = StockStub()
 
-        past = Before(Get('m'), 4)
+        past = Before(Get('m'), past_quarter=4)
         v = past.eval(stock, 2019, 4)
         self.assertEqual(1, v)
 
@@ -60,6 +60,21 @@ class BeforeGet(unittest.TestCase):
 
         stock = StockStub()
 
-        past = Before(Get('m'), 5)
+        past = Before(Get('m'), past_quarter=5)
         v = past.eval(stock, 2019, 1)
         self.assertEqual(1, v)
+
+    def test_past_year(self):
+        class StockStub(ExprCtx):
+
+            def get_metrics(self, name: str, year: int, quarter: int):
+                d = {
+                    2018: {4: 4}
+                }
+                return d[year][quarter]
+
+        stock = StockStub()
+
+        past = Before(Get('m'), past_year=1)
+        v = past.eval(stock, 2019, 1)
+        self.assertEqual(4, v)

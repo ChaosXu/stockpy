@@ -5,18 +5,29 @@ import math
 
 
 class Before(Expr):
-    '''the value before past_quarter'''
+    '''the value before past time'''
 
-    def __init__(self, metrics: Get, past_quarter: int):
+    def __init__(self, metrics: Get, past_year: int = 0, past_quarter: int = 0):
         '''
         Args:
             metrics: Get expr
             past_quarter:  the count of the quarters before current
+            past_year:  the count of the years before current
         '''
         self._metrics = metrics
         self._qc = past_quarter
+        self._yc = past_year
 
     def eval(self, stock: ExprCtx, year: int, quarter: int):
+        if self._yc != 0:
+            return self.__eval_y(stock, year, quarter)
+        if self._qc != 0:
+            return self.__eval_q(stock, year, quarter)
+
+    def __eval_y(self, stock: ExprCtx, year: int, quarter: int):
+        return self._metrics.eval(stock, year-self._yc, 4)
+
+    def __eval_q(self, stock: ExprCtx, year: int, quarter: int):
         q = quarter-self._qc
         if q > 0:
             return self._metrics.eval(stock, year, q)

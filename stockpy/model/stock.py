@@ -20,17 +20,25 @@ class Stock(ExprCtx, MetricsMixin, StatementMixin, metaclass=StockMeta):
         except KeyError:
             raise AttributeError('Stock has no field "%s"' % key)
 
-    def get_metrics(self, name, year, quarter):
-        return self.eval(self, name, year, quarter)
+    def get_metrics(self, name: str, year, quarter):
+        # TBD
+        if name.index('i_') == 0:
+            return self.__info[name[2:]]
+        else:
+            return self.eval(self, name, year, quarter)
 
     def crawl_metrics(self, stat, name, year, quarter):
-        return self.statement.metrics(self.__info['ts_code'], stat, name, year, quarter)
+        # TBD
+        try:
+            return self.statement.metrics(self.__info['ts_code'], stat, name, year, quarter)[0]
+        except IndexError:
+            return None
 
     def valuate(self):
         pass
 
 
-class Stocks():
+class Stocks:
 
     def __init__(self, stat: Statement, data: pd.DataFrame):
         self.__data = data
@@ -43,10 +51,13 @@ class Stocks():
     def __getitem__(self, index):
         return Stock(self.__stat, self.__data.iloc[index])
 
-    def to_excel(self, path: str):
+    def __len__(self):
+        return len(self.__data.iterrows())
+
+    def to_excel(self, file_path: str):
 
         def to_file():
-            with pd.ExcelWriter(path+r'/stocks.xlsx',
+            with pd.ExcelWriter(file_path,
                                 date_format='YYYY-MM-DD',
                                 datetime_format='YYYY-MM-DD HH:MM:SS') as writer:
                 self.__data.to_excel(writer)
@@ -56,7 +67,16 @@ class Stocks():
             os.makedirs(path)
             to_file()
 
-    def where(self, year: int, quarter: int, filter: BooleanExpr):
+    def queryByInfo(self, filter: BooleanExpr):
+        '''filter by stock's info'''
+        rs = []
+        for stock in self:
+            if filter.eval(stock, None, None) is True:
+                rs.append(stock)
+        return rs
+
+    def queryByMetrics(self, year: int, quarter: int, filter: BooleanExpr):
+        '''filter by stock's metrics'''
         rs = []
         for stock in self:
             if filter.eval(stock, year, quarter) is True:
