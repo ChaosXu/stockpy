@@ -2,11 +2,11 @@ from stockpy.model.stock import Stocks
 from stockpy import expr
 
 
-def last_year_f_revenuen_y_r_y2y():
+def last_year_f_revenue_y_r_y2y():
     return expr.Before(expr.Get('f_revenue_y.r_y2y'), past_year=1)
 
 
-def last_quarter_f_revenuen_q_r_y2y():
+def last_quarter_f_revenue_q_r_y2y():
     return expr.Get('f_revenue_q.r_y2y')
 
 
@@ -38,9 +38,9 @@ def horseFilter():
 
 def revenue_gt_0():
     return expr.And(
-        expr.Gt(last_year_f_revenuen_y_r_y2y(),
+        expr.Gt(last_year_f_revenue_y_r_y2y(),
                 expr.Value(0)),
-        expr.Gt(last_quarter_f_revenuen_q_r_y2y(),
+        expr.Gt(last_quarter_f_revenue_q_r_y2y(),
                 expr.Value(0))
     )
 

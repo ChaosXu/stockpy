@@ -22,7 +22,7 @@ class Stock(ExprCtx, MetricsMixin, StatementMixin, metaclass=StockMeta):
 
     def get_metrics(self, name: str, year, quarter):
         # TBD
-        if name.index('i_') == 0:
+        if name.find('i_') == 0:
             return self.__info[name[2:]]
         else:
             return self.eval(self, name, year, quarter)

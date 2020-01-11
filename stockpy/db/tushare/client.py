@@ -3,9 +3,10 @@ import simplejson as json
 import pandas as pd
 import time
 from stockpy.util.rate import RateLimiter
+from stockpy.db.driver import Driver
 
 
-class Client:
+class Client(Driver):
 
     def __init__(self, **config):
         self.__http_url = config['http_url']
@@ -13,7 +14,7 @@ class Client:
         self.__timeout = config['timeout']
         self.__buckets = RateLimiter(config['rate'], config['capacity'])
 
-    def query(self, api_name, fields='', **kwargs):        
+    def query(self, api_name, fields='', **kwargs):
         req_params = {
             'api_name': api_name,
             'token': self.__token,

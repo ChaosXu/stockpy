@@ -1,6 +1,8 @@
 from stockpy.db.cache import DataFrameCache
 from stockpy.db.tushare.client import Client
+from stockpy.db.driver import Driver
 from stockpy.model.statement import Statement as IStat
+from stockpy.db import util
 import pandas as pd
 import os
 
@@ -19,8 +21,11 @@ class Statement(IStat):
         'income': 'income'
     }
 
-    def __init__(self, **opts):
-        self.__client = Client(**opts['data_provider'])
+    def __init__(self, driver: Driver = None, **opts):
+        if driver is None:
+            self.__client = Client(**opts['data_provider'])
+        else:
+            self.__client = driver
         self.__cache = DataFrameCache(**opts['data_cache'])
 
     def metrics(self, ts_code: str, stat: str, name: str,
@@ -72,7 +77,7 @@ class Statement(IStat):
         return self.__stat_name[stat]
 
     def __file(self, ts_code, stat, year, quarter):
-        return 'statements/{}/{}/{}/{}'.format(ts_code, year, quarter, stat)
+        return util.statement_file(ts_code, stat, year, quarter)
 
     # def __fields(self, stat):
     #     if stat == 'balancesheet':

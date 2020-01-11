@@ -2,6 +2,7 @@ import os
 import simplejson as json
 import pandas as pd
 import threading as th
+from stockpy.db import util
 
 
 class Cache:
@@ -35,7 +36,7 @@ class Cache:
             do_save()
 
     def _file_path(self, type: str):
-        return '{}/{}'.format(self.__data_path, type)
+        return util.file_path(self.__data_path, type)
 
 
 class DataFrameCache(Cache):

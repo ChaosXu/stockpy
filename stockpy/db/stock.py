@@ -1,7 +1,8 @@
 from stockpy.db.tushare.client import Client
 from stockpy.db.cache import DataFrameCache
+from stockpy.db.driver import Driver
+from stockpy.db.statement import Statement
 from stockpy.model.stock import Stocks
-from stockpy.db.tushare.statement import Statement
 
 
 class StockDb:
@@ -21,10 +22,13 @@ class StockDb:
         is_hs
     '''
 
-    def __init__(self, **opts):
-        self.__client = Client(**opts['data_provider'])
+    def __init__(self, driver: Driver = None, **opts,):
+        if driver is None:
+            self.__client = Client(**opts['data_provider'])
+        else:
+            self.__client = driver
         self.__cache = DataFrameCache(**opts['data_cache'])
-        self.__statement = Statement(**opts)
+        self.__statement = Statement(driver=driver, **opts)
 
     def list(self):
         data = self.__cache.get('stock_basic')
