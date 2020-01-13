@@ -5,7 +5,8 @@ from stockpy.expr.base import ExprCtx
 class Get(Expr):
     '''Get a metrics value  from the ExprCtx'''
 
-    def __init__(self, name: str, increment=False):
+    def __init__(self, name: str,
+                 increment=False):
         '''
         Args:
             name: metrics name
@@ -17,15 +18,18 @@ class Get(Expr):
 
     def eval(self, stock: ExprCtx, year: int, quarter: int):
         if self._increment is True:
-            v2 = stock.get_metrics(self._name, year, quarter)
-            q1 = quarter
-            y1 = year
-            if quarter == 1:
-                q1 = 4
-                y1 = y1 - 1
-            else:
-                q1 = q1-1
-            v1 = stock.get_metrics(self._name, y1, q1)
-            return v2-v1
+            return self.__eval_inc(stock, year, quarter)
+
+        return stock.get_metrics(self._name, year, quarter)
+
+    def __eval_inc(self, stock: ExprCtx, year: int, quarter: int):
+        v2 = stock.get_metrics(self._name, year, quarter)
+        q1 = quarter
+        y1 = year
+        if quarter == 1:
+            q1 = 4
+            y1 = y1 - 1
         else:
-            return stock.get_metrics(self._name, year, quarter)
+            q1 = q1-1
+        v1 = stock.get_metrics(self._name, y1, q1)
+        return v2-v1

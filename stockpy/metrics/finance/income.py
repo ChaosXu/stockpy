@@ -63,5 +63,6 @@ def metrics():
                                           past_year=1)),
                              expr.Before(expr.Get('n_income_attr_p'),
                                          past_year=1)))
+
     ]
     return metas

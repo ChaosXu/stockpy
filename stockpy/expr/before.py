@@ -7,12 +7,14 @@ import math
 class Before(Expr):
     '''the value before past time'''
 
-    def __init__(self, metrics: Get, past_year: int = 0, past_quarter: int = 0):
+    def __init__(self, metrics: Get,
+                 past_year: int = 0,
+                 past_quarter: int = 0):
         '''
         Args:
             metrics: Get expr
-            past_quarter:  the count of the quarters before current
-            past_year:  the count of the years before current
+            past_quarter:  returns the value before the past quarters
+            past_year:  returns the value in the Q4 before the past years
         '''
         self._metrics = metrics
         self._qc = past_quarter

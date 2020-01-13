@@ -29,11 +29,11 @@ def horseFilter():
     )
 
 
-# def roe():
-#     return expr.Ge(
-#         expr.Range(expr.Get('f_roe'), 6*4),
-#         expr.Value(0.15)
-#     )
+def roe_ge_15_pct_last_7_year():
+    return expr.Ge(
+        expr.Range(expr.Get('f_roe'), 6*4),
+        expr.Value(0.15)
+    )
 
 
 def revenue_gt_0():
