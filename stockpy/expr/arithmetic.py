@@ -30,7 +30,11 @@ class Sub(ArithmeticExpr):
         self.__opds = opds
 
     def eval(self, stock: ExprCtx, year: int, quarter: int):
-        sub = self.__opds[0].eval(stock, year, quarter) * 2
+        try:
+            sub = self.__opds[0].eval(stock, year, quarter) * 2
+        except TypeError:
+            raise Exception('{}.{}'.format(year, quarter))
+
         for opd in self.__opds:
             sub -= opd.eval(stock, year, quarter)
         return sub

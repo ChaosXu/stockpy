@@ -27,6 +27,8 @@ class Before(Expr):
             return self.__eval_q(stock, year, quarter)
 
     def __eval_y(self, stock: ExprCtx, year: int, quarter: int):
+        if quarter < 4:
+            return self._metrics.eval(stock, year-self._yc-1, 4)
         return self._metrics.eval(stock, year-self._yc, 4)
 
     def __eval_q(self, stock: ExprCtx, year: int, quarter: int):

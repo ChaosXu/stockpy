@@ -11,8 +11,9 @@ def metrics():
                                          past_quarter=4))),
         # 年度应收账款增长(同比)
         MetricsMeta('f_accounts_receiv_y.y2y',
-                    expr.Sub(expr.Get('accounts_receiv'),
-                             expr.Before(expr.Get('accounts_receiv'),
+                    expr.Sub(expr.Get('accounts_receiv', period='y'),
+                             expr.Before(expr.Get('accounts_receiv',
+                                                  period='y'),
                                          past_year=1))),
         # 季度存货增长
         MetricsMeta('f_inventories_q.y2y',
@@ -21,14 +22,14 @@ def metrics():
                                          past_quarter=4))),
         # 年度存货增长
         MetricsMeta('f_inventories_y.y2y',
-                    expr.Sub(expr.Get('inventories'),
-                             expr.Before(expr.Get('inventories'),
+                    expr.Sub(expr.Get('inventories', period='y'),
+                             expr.Before(expr.Get('inventories', period='y'),
                                          past_year=1))),
 
         # 流动比率 = 流动资产 / 流动负债
         # 流动比率 (CR) 基准值=2
         MetricsMeta('f_current_y.r',
-                    expr.Div(expr.Get('total_cur_assets'),
-                             expr.Get('total_cur_liab')))
+                    expr.Div(expr.Get('total_cur_assets', period='y'),
+                             expr.Get('total_cur_liab', period='y')))
     ]
     return metas

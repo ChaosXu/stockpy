@@ -69,7 +69,7 @@ class BeforeGet(unittest.TestCase):
 
             def get_metrics(self, name: str, year: int, quarter: int):
                 d = {
-                    2018: {4: 4}
+                    2017: {4: 4}
                 }
                 return d[year][quarter]
 

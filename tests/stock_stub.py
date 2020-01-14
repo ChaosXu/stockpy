@@ -16,7 +16,7 @@ class StockMapStub(ExprCtx):
     def __init__(self, data: dict):
         self.__data = data
 
-    def get_metrics(self, name: str, year: int, quarter: int):
+    def get_metrics(self, name: str, year: int, quarter: int):        
         if name in self.__data is not None:
             try:
                 return self.__data[name][year][quarter]
@@ -24,4 +24,8 @@ class StockMapStub(ExprCtx):
                 raise Exception('get_metrics failed. name={},year={},quarter={}\r\n inner_err:={}'.format(
                     name, year, quarter, e))
         else:
-            return g_metrics[name].expr.eval(self, year, quarter)
+            data = g_metrics[name].expr.eval(self, year, quarter)
+            if data is None:
+                raise Exception('get_metrics failed. name={},year={},quarter={}'.format(
+                    name, year, quarter))
+            return data

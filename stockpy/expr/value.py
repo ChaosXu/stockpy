@@ -9,3 +9,12 @@ class Value(Expr):
 
     def eval(self, stock: ExprCtx, year: int, quarter: int):
         return self._v
+
+
+class FuncValue(Expr):
+
+    def __init__(self, func):
+        self.__func = func
+
+    def eval(self, stock: ExprCtx, year: int, quarter: int):
+        return self.__func(stock, year, quarter)

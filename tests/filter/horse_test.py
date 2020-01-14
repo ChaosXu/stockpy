@@ -1,9 +1,5 @@
 import unittest
-from stockpy.db.mock.driver import Driver
-from stockpy.db.stock import StockDb
 from stockpy.filter import horse
-from stockpy import expr
-from tests.filter import config
 from tests import StockMapStub
 
 
@@ -22,7 +18,21 @@ class HorseTest(unittest.TestCase):
                 },
                 2017: {
                     4: 4
+                },
+                2016: {
+                    4: 2
                 }
+            },
+            'accounts_receiv': {
+                2018: {
+                    4: 1
+                },
+                2017: {
+                    4: 1
+                },
+                2016: {
+                    4: 1
+                },
             },
             'n_income_attr_p': {
                 2019: {
@@ -35,11 +45,33 @@ class HorseTest(unittest.TestCase):
                 },
                 2017: {
                     4: 4
+                },
+                2016: {
+                    4: 6,
+                    3: 5
+                },
+                2015: {
+                    4: 5
+                },
+                2014: {
+                    4: 4
+                },
+                2013: {
+                    4: 3
+                },
+                2012: {
+                    4: 2
+                },
+                2011: {
+                    4: 1
+                },
+                2010: {
+                    4: 0.5
                 }
             },
             'total_hldr_eqy_exc_min_int': {
                 2016: {
-                    4: 9
+                    3: 9
                 },
                 2015: {
                     4: 8
@@ -55,6 +87,12 @@ class HorseTest(unittest.TestCase):
                 },
                 2011: {
                     4: 4
+                },
+                2010: {
+                    4: 3
+                },
+                2009: {
+                    4: 2
                 }
             }
         }
@@ -76,7 +114,7 @@ class HorseTest(unittest.TestCase):
     def test_last_year_f_income_attr_p_y_r_y2y(self):
         m = horse.last_year_f_income_attr_p_y_r_y2y()
 
-        # (2018.8 - 2017.4)/2017.4
+        # (2018.4 - 2017.4)/2017.4
         v = m.eval(self.stock, 2019, 2)
         self.assertEqual((8-4)/4, v)
 
@@ -98,4 +136,11 @@ class HorseTest(unittest.TestCase):
         self.assertTrue(v)
 
     def test_roe_ge_15_pct(self):
-        pass
+        m = horse.roe_ge_15_pct_last_7_year()
+        v = m.eval(self.stock, 2016, 3)
+        self.assertTrue(v)
+
+    def test_revenue_y_gt_accounts_receive_3_years(self):
+        m = horse.revenue_y_gt_accounts_receive_3_years()
+        v = m.eval(self.stock, 2019, 2)
+        self.assertTrue(v)

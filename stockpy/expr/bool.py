@@ -11,10 +11,11 @@ class BooleanExpr(Expr):
     def eval(self, stock: ExprCtx, year: int, quarter: int):
         lv = self._left.eval(stock, year, quarter)
         rv = self._right.eval(stock, year, quarter)
+
         if isinstance(lv, list):
-            self._eval_list_v(lv, rv)
+            return self._eval_list_v(lv, rv)
         if isinstance(rv, list):
-            self._eval_v_list(lv, rv)
+            return self._eval_v_list(lv, rv)
         return self._eval_v(lv, rv)
 
     def _eval_v(self, lv, rv):

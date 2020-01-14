@@ -30,13 +30,13 @@ class BalanceSheetTest(unittest.TestCase):
     def test_f_current_y_r(self):
         data = {
             'total_cur_assets': {
-                2019: {
-                    1: 2
+                2018: {
+                    4: 2
                 }
             },
             'total_cur_liab': {
-                2019: {
-                    1: 1
+                2018: {
+                    4: 1
                 }
             }
         }
