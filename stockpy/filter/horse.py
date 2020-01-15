@@ -18,17 +18,6 @@ def last_quarter_f_income_attr_p_q_r_y2y():
     return expr.Get('f_income_attr_p_q.r_y2y')
 
 
-def horseFilter():
-    return expr.And(
-        roe_ge_15_pct_last_7_year(),
-        revenue_gt_0(),
-        income_attr_p_gt_0()
-        # bear1(),
-        # bear2(),
-        # bear3()
-    )
-
-
 def roe_ge_15_pct_last_7_year():
     return expr.And(
         expr.Ge(
@@ -56,7 +45,7 @@ def roe_ge_15_pct_now():
     )
 
 
-def revenue_gt_0():
+def revenue_r_gt_0():
     return expr.And(
         expr.Gt(last_year_f_revenue_y_r_y2y(),
                 expr.Value(0)),
@@ -65,7 +54,7 @@ def revenue_gt_0():
     )
 
 
-def income_attr_p_gt_0():
+def income_attr_p_r_gt_0():
     return expr.And(
         expr.Gt(last_year_f_income_attr_p_y_r_y2y(),
                 expr.Value(0)),
@@ -109,18 +98,64 @@ def revenue_y_gt_accounts_receive_3_years():
                             past_year=3))))
 
 
-def bear2_inventories():
-    return expr.And(
-        expr.Gt(
-            expr.Before(expr.Get('f_revenue_y.y2y'), past_year=1),
-            expr.Before(expr.Get('f_inventories_y.y2y')), past_year=1),
-        expr.Gt(
-            expr.Before(expr.Get('f_revenue_y.y2y'), past_year=2),
-            expr.Before(expr.Get('f_inventories_y.y2y')), past_year=2)
-    )
+def revenue_y_gt_inventoires_3_years():
+    return expr.Or(
+        expr.And(
+            expr.Gt(
+                expr.Get('f_revenue_y.y2y'),
+                expr.Get('f_inventories_y.y2y')),
+            expr.Gt(
+                expr.Before(expr.Get('f_revenue_y.y2y'),
+                            past_year=1),
+                expr.Before(expr.Get('f_inventories_y.y2y'),
+                            past_year=1))),
+        expr.And(
+            expr.Gt(
+                expr.Before(expr.Get('f_revenue_y.y2y'),
+                            past_year=1),
+                expr.Before(expr.Get('f_inventories_y.y2y'),
+                            past_year=1)),
+            expr.Gt(
+                expr.Before(expr.Get('f_revenue_y.y2y'),
+                            past_year=2),
+                expr.Before(expr.Get('f_inventories_y.y2y'),
+                            past_year=2))),
+        expr.And(
+            expr.Gt(
+                expr.Before(expr.Get('f_revenue_y.y2y'),
+                            past_year=2),
+                expr.Before(expr.Get('f_inventories_y.y2y'),
+                            past_year=2)),
+            expr.Gt(
+                expr.Before(expr.Get('f_revenue_y.y2y'),
+                            past_year=3),
+                expr.Before(expr.Get('f_inventories_y.y2y'),
+                            past_year=3))))
 
-# def bear3():
-#     pass
+
+def current_y_gt_1_3_years():
+    return expr.Or(
+        expr.And(
+            expr.Gt(
+                expr.Get('f_current_y.r'),
+                expr.Value(1)),
+            expr.Gt(
+                expr.Before(expr.Get('f_current_y.r'), past_year=1),
+                expr.Value(1))),
+        expr.And(
+            expr.Gt(
+                expr.Before(expr.Get('f_current_y.r'), past_year=1),
+                expr.Value(1)),
+            expr.Gt(
+                expr.Before(expr.Get('f_current_y.r'), past_year=2),
+                expr.Value(1))),
+        expr.And(
+            expr.Gt(
+                expr.Before(expr.Get('f_current_y.r'), past_year=2),
+                expr.Value(1)),
+            expr.Gt(
+                expr.Before(expr.Get('f_current_y.r'), past_year=3),
+                expr.Value(1))))
 
 
 # def pe_quantile():
@@ -129,6 +164,16 @@ def bear2_inventories():
 
 # def pb_quantile():
 #     pass
+
+def horseFilter():
+    return expr.And(
+        roe_ge_15_pct_last_7_year(),
+        revenue_r_gt_0(),
+        income_attr_p_r_gt_0(),
+        revenue_y_gt_accounts_receive_3_years(),
+        revenue_y_gt_inventoires_3_years(),
+        current_y_gt_1_3_years()
+    )
 
 
 class Horse:

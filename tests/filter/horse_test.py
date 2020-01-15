@@ -34,6 +34,39 @@ class HorseTest(unittest.TestCase):
                     4: 1
                 },
             },
+            'inventories': {
+                2018: {
+                    4: 1
+                },
+                2017: {
+                    4: 1
+                },
+                2016: {
+                    4: 1
+                }
+            },
+            'total_cur_assets': {
+                2018: {
+                    4: 2
+                },
+                2017: {
+                    4: 2
+                },
+                2016: {
+                    4: 2
+                }
+            },
+            'total_cur_liab': {
+                2018: {
+                    4: 1
+                },
+                2017: {
+                    4: 1
+                },
+                2016: {
+                    4: 1
+                }
+            },
             'n_income_attr_p': {
                 2019: {
                     2: 2,
@@ -125,13 +158,13 @@ class HorseTest(unittest.TestCase):
         v = m.eval(self.stock, 2019, 2)
         self.assertEqual((2-1)/1, v)
 
-    def test_revenue_gt_0(self):
-        m = horse.revenue_gt_0()
+    def test_revenue_r_gt_0(self):
+        m = horse.revenue_r_gt_0()
         v = m.eval(self.stock, 2019, 2)
         self.assertTrue(v)
 
-    def test_income_attr_p_gt_0(self):
-        m = horse.income_attr_p_gt_0()
+    def test_income_attr_p_r_gt_0(self):
+        m = horse.income_attr_p_r_gt_0()
         v = m.eval(self.stock, 2019, 2)
         self.assertTrue(v)
 
@@ -142,5 +175,15 @@ class HorseTest(unittest.TestCase):
 
     def test_revenue_y_gt_accounts_receive_3_years(self):
         m = horse.revenue_y_gt_accounts_receive_3_years()
+        v = m.eval(self.stock, 2019, 2)
+        self.assertTrue(v)
+
+    def test_revenue_y_gt_inventoires_3_years(self):
+        m = horse.revenue_y_gt_inventoires_3_years()
+        v = m.eval(self.stock, 2019, 2)
+        self.assertTrue(v)
+
+    def test_current_y_gt_1_3_years(self):
+        m = horse.current_y_gt_1_3_years()
         v = m.eval(self.stock, 2019, 2)
         self.assertTrue(v)
