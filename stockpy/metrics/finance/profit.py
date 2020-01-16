@@ -2,48 +2,6 @@ from stockpy.metrics.base import MetricsMeta
 from stockpy import expr
 
 
-def free_cash_flow():
-    '''投资:自由现金流'''
-    return MetricsMeta('f_cashflow_free',
-                       expr.Sub(expr.Get('n_cashflow_act'),
-                                expr.Get('c_pay_acq_const_fiolta')))
-
-
-def net_operating_cycle():
-    '''营销:净营业周期'''
-    return MetricsMeta('f_net_op_cycle',
-                       expr.Sub(expr.Sum('存货周转天数', '应收款项周转天数', '预付账款周转天数'),
-                                '应付款项周转天数', '预收款项周转天数'))
-
-
-def sale_cash_ratio():
-    '''营销:销售收现率'''
-    return MetricsMeta('f_sale_cash.r',
-                       expr.Div(expr.Get('c_fr_sale_sg'),
-                                expr.Get('revenue')))
-
-
-def sale_credit_ratio():
-    '''营销:赊销率(白条率)'''
-    return MetricsMeta('f_sale_credit.r',
-                       expr.Div(expr.Get('f_receivables'),
-                                expr.Get('revenue')))
-
-
-def receivables():
-    '''营销:应收款项 = 应收票据 + 应收账款'''
-    return MetricsMeta('f_receivables',
-                       expr.Sum(expr.Get('notes_receiv'),
-                                expr.Get('accounts_receiv')))
-
-
-def adv_receipt_ratio():
-    '''营销:预收率'''
-    return MetricsMeta('f_adv_receipt.r',
-                       expr.Sub(expr.Get('adv_receipts'),
-                                expr.Get('revenue')))
-
-
 def sale_net_profit_ratio():
     '''销售净利率'''
     return MetricsMeta('f_sale_net_profit.r',
@@ -101,12 +59,6 @@ def leverage():
 
 def metrics():
     metas = [
-        free_cash_flow(),
-        net_operating_cycle(),
-        sale_cash_ratio(),
-        sale_credit_ratio(),
-        receivables(),
-        adv_receipt_ratio(),
         sale_net_profit_ratio(),
         gross_profit_ratio(),
         exp_3_ratio(),
