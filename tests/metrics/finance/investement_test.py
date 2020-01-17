@@ -99,7 +99,7 @@ class InvestementTest(unittest.TestCase):
         v = m.eval(self.stock, 2019, 1)
         self.assertEqual(1, v)
 
-    def test_cashflow_free_10_years_ratio(self):
+    def test_net_profit_10_years_growth_ratio(self):
         m = inv.net_profit_10_years_growth_ratio().expr
         v = m.eval(self.stock, 2019, 1)
         self.assertEqual(3.6, v)
