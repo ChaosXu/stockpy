@@ -25,8 +25,10 @@ class Before(Expr):
             return self.__eval_y(stock, year, quarter)
         if self._qc != 0:
             return self.__eval_q(stock, year, quarter)
+        raise Exception('past_year and past_quarter can not be zero')
 
     def __eval_y(self, stock: ExprCtx, year: int, quarter: int):
+
         if quarter < 4:
             return self._metrics.eval(stock, year-self._yc-1, 4)
         return self._metrics.eval(stock, year-self._yc, 4)

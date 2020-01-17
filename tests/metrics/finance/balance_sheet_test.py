@@ -1,6 +1,9 @@
 import unittest
 from tests import StockStub, StockMapStub
-from stockpy.metrics.finance import balance_sheet
+from stockpy.metrics.finance import (
+    balance_sheet,
+    operating as op
+)
 from stockpy.expr import Get
 
 
@@ -111,42 +114,42 @@ class BalanceSheetTest(unittest.TestCase):
         self.assertEqual(2/1, v)
 
     def test_days_inventory_y(self):
-        m = balance_sheet.days_inventory_y().expr
+        m = op.days_inventory_y().expr
         v = m.eval(self.stock, 2019, 1)
         s1 = Get('f_inventory_ave_y').eval(self.stock, 2019, 1)
         s2 = Get('oper_cost', period='y').eval(self.stock, 2019, 1)
         self.assertEqual(360*s1/s2, v)
 
     def test_days_accounts_receiv_y(self):
-        m = balance_sheet.days_accounts_receiv_y().expr
+        m = op.days_accounts_receiv_y().expr
         v = m.eval(self.stock, 2019, 1)
         s1 = Get('f_accounts_receiv_ave_y').eval(self.stock, 2019, 1)
         s2 = Get('c_fr_sale_sg', period='y').eval(self.stock, 2019, 1)
         self.assertEqual(360*s1/s2, v)
 
     def test_days_prepayment_y(self):
-        m = balance_sheet.days_prepayment_y().expr
+        m = op.days_prepayment_y().expr
         v = m.eval(self.stock, 2019, 1)
         s1 = Get('f_prepayment_ave_y').eval(self.stock, 2019, 1)
         s2 = Get('oper_cost', period='y').eval(self.stock, 2019, 1)
         self.assertEqual(360*s1/s2, v)
 
     def test_days_adv_receipts_y(self):
-        m = balance_sheet.days_adv_receipts_y().expr
+        m = op.days_adv_receipts_y().expr
         v = m.eval(self.stock, 2019, 1)
         s1 = Get('f_adv_receipts_ave_y').eval(self.stock, 2019, 1)
         s2 = Get('c_fr_sale_sg', period='y').eval(self.stock, 2019, 1)
         self.assertEqual(360*s1/s2, v)
 
     def test_days_acct_payable_y(self):
-        m = balance_sheet.days_acct_payable_y().expr
+        m = op.days_acct_payable_y().expr
         v = m.eval(self.stock, 2019, 1)
         s1 = Get('f_acct_payable_ave_y').eval(self.stock, 2019, 1)
         s2 = Get('oper_cost', period='y').eval(self.stock, 2019, 1)
         self.assertEqual(360*s1/s2, v)
 
     def test_net_operating_cycle(self):
-        m = balance_sheet.net_operating_cycle().expr
+        m = op.net_operating_cycle().expr
         v = m.eval(self.stock, 2019, 1)
         s1 = Get('f_days_inventory_y').eval(self.stock, 2019, 1)
         s2 = Get('f_days_accounts_receiv_y',

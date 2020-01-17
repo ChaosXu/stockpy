@@ -5,7 +5,8 @@ from stockpy.metrics.finance import (
     balance_sheet as f_balance_sheet,
     profit as f_profit,
     investment as f_cash_flow_inv,
-    operating as f_cash_flow_op,
+    sale as f_sale,
+    operating as f_op,
     roe
 )
 
@@ -22,7 +23,8 @@ load_metrics(g_metrics, f_income.metrics())
 load_metrics(g_metrics, f_balance_sheet.metrics())
 load_metrics(g_metrics, f_profit.metrics())
 load_metrics(g_metrics, f_cash_flow_inv.metrics())
-load_metrics(g_metrics, f_cash_flow_op.metrics())
+load_metrics(g_metrics, f_sale.metrics())
+load_metrics(g_metrics, f_op.metrics())
 load_metrics(g_metrics, roe.metrics())
 
 

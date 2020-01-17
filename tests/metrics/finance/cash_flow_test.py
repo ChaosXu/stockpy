@@ -2,7 +2,7 @@ import unittest
 from stockpy.metrics.finance import (
     profit as pf,
     investment as inv,
-    operating as op
+    sale
 )
 from stockpy import expr
 from tests import StockMapStub
@@ -91,33 +91,27 @@ class CashFlowTest(unittest.TestCase):
         }
         cls.stock = StockMapStub(cls.data)
 
-    def test_free_cash_flow(self):
-        m = inv.free_cash_flow().expr
-        v = m.eval(self.stock, 2019, 1)
-        self.assertEqual(self.data['n_cashflow_act'][2019][1] -
-                         self.data['c_pay_acq_const_fiolta'][2019][1], v)
-
     def test_sale_cash_ratio(self):
-        m = op.sale_cash_ratio().expr
+        m = sale.sale_cash_ratio().expr
         v = m.eval(self.stock, 2019, 1)
         self.assertEqual(self.data['c_fr_sale_sg'][2019][1] /
                          self.data['revenue'][2019][1], v)
 
     def test_sale_credit_ratio(self):
-        m = op.sale_cash_ratio().expr
+        m = sale.sale_cash_ratio().expr
         v = m.eval(self.stock, 2019, 1)
-        f_receiv = op.receivables().expr.eval(self.stock, 2019, 1)
+        f_receiv = sale.receivables().expr.eval(self.stock, 2019, 1)
         self.assertEqual(f_receiv /
                          self.data['revenue'][2019][1], v)
 
     def test_receivables(self):
-        m = op.receivables().expr
+        m = sale.receivables().expr
         v = m.eval(self.stock, 2019, 1)
         self.assertEqual(self.data['notes_receiv'][2019][1] +
                          self.data['accounts_receiv'][2019][1], v)
 
     def test_adv_receipt_ratio(self):
-        m = op.adv_receipt_ratio().expr
+        m = sale.adv_receipt_ratio().expr
         v = m.eval(self.stock, 2019, 1)
         self.assertEqual(self.data['adv_receipts'][2019][1] -
                          self.data['revenue'][2019][1], v)

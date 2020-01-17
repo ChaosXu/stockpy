@@ -16,7 +16,7 @@ class StockMapStub(ExprCtx):
     def __init__(self, data: dict):
         self.__data = data
 
-    def get_metrics(self, name: str, year: int, quarter: int):        
+    def get_metrics(self, name: str, year: int, quarter: int):
         if name in self.__data is not None:
             try:
                 return self.__data[name][year][quarter]

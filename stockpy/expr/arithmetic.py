@@ -20,7 +20,11 @@ class Sum(Expr):
     def eval(self, stock: ExprCtx, year: int, quarter: int):
         sum = 0
         for opd in self.opds:
-            sum += opd.eval(stock, year, quarter)
+            if isinstance(opd, list):
+                for opd2 in opd:
+                    sum += opd2.eval(stock, year, quarter)
+            else:
+                sum += opd.eval(stock, year, quarter)
         return sum
 
 
