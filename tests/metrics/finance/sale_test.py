@@ -1,9 +1,5 @@
 import unittest
-from stockpy.metrics.finance import (
-    investment as inv,
-    sale
-)
-from stockpy import expr
+from stockpy.metrics.finance.cashflow import sale
 from tests import StockMapStub
 
 

@@ -4,10 +4,12 @@ from stockpy.metrics.finance import (
     income as f_income,
     balance_sheet as f_balance_sheet,
     profit as f_profit,
-    investment as f_cash_flow_inv,
-    sale as f_sale,
-    operating as f_op,
     roe
+)
+from stockpy.metrics.finance.cashflow import (
+    investment as f_cash_flow_inv,
+    operating as f_op,
+    sale as f_sale
 )
 
 
