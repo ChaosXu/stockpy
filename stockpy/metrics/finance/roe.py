@@ -4,7 +4,7 @@ from stockpy import expr
 
 def metrics():
     metas = [
-        # ROE(平均)
+        # 年度ROE(平均)
         # =净利润/净资产
         # =归母净利润/（期初+期末归母净资产）/2
         # =每股净利润/每股净资产
@@ -23,7 +23,7 @@ def metrics():
                                     past_year=1)),
                             expr.Value(2))))
 
-        # ROE(加权平均)
+        # 年度ROE(加权平均)
         # 根据中国证监会发布的《公开发行证券公司信息披露编报规则》第9号的通知的规定：加权平均净资产收益率(ROE)的计算公式如下：ROE= P/（E0 + NP÷2 + Ei×Mi÷M0 - Ej×Mj÷M0）
         # 其中：
         # P为报告期利润；
