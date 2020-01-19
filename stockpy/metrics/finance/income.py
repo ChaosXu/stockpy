@@ -13,10 +13,10 @@ def revenue_q_y2y():
 def revenue_q_r_y2y():
     # 季度营业收入增长率((同比)
     return MetricsMeta('f_revenue_q.r_y2y',
-                       expr.Div(expr.Sub(expr.Get('revenue'),
-                                         expr.Before(
-                           expr.Get('revenue'),
-                           past_quarter=4)),
+                       expr.Div(
+                           expr.Sub(expr.Get('revenue'),
+                                    expr.Before(
+                                        expr.Get('revenue'), past_quarter=4)),
                            expr.Before(expr.Get('revenue'),
                                        past_quarter=4)))
 
@@ -76,9 +76,20 @@ def income_attr_p_y_r_y2y():
                                     expr.Before(expr.Get('n_income_attr_p',
                                                          period='y'),
                                                 past_year=1)),
-                           expr.Before(expr.Get('n_income_attr_p',
-                                                period='y'),
+                           expr.Before(expr.Get('n_income_attr_p', period='y'),
                                        past_year=1)))
+
+
+def income_attr_p_ttm():
+    # 滚动净利润：最近连续4个季度
+    ttm_q3 = [expr.Before(expr.Get('n_income_attr_p', increment=True),
+                          past_quarter=i)
+              for i in range(1, 4)]
+    return MetricsMeta('f_income_attr_p_ttm',
+                       expr.Sum(expr.Get('n_income_attr_p',
+                                         increment=True,
+                                         var_type='f'),
+                                ttm_q3))
 
 
 def metrics():
@@ -91,6 +102,8 @@ def metrics():
         income_attr_p_q_y2y(),
         income_attr_p_q_r_y2y(),
         income_attr_p_y_y2y(),
-        income_attr_p_y_r_y2y()
+        income_attr_p_y_r_y2y(),
+
+        income_attr_p_ttm()
     ]
     return metas

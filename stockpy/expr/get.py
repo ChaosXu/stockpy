@@ -7,16 +7,19 @@ class Get(Expr):
 
     def __init__(self, name: str,
                  period: str = 'q',
-                 increment: bool = False):
+                 increment: bool = False,
+                 var_type: str = 's'):
         '''
         Args:
             name: metrics name.
             period: returns quarter data or year data.
             increment: Get the increment value bettwen two quarters if true.
+            var_type: economic variable. stock of flow. default is stock
         '''
         self._name = name
         self._increment = increment
         self._period = period
+        self._var_type = var_type
 
     def eval(self, stock: ExprCtx, year: int, quarter: int):
         if self._increment is True:
@@ -33,6 +36,8 @@ class Get(Expr):
         q1 = quarter
         y1 = year
         if quarter == 1:
+            if self._var_type == 'f':
+                return v2
             q1 = 4
             y1 = y1 - 1
         else:
