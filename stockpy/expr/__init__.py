@@ -8,3 +8,4 @@ from stockpy.expr.value import Value, FuncValue
 from stockpy.expr.bool import (
     BooleanExpr, Le, Lt, Eq, Ne, Ge, Gt, And, Or
 )
+from stockpy.expr.control import Switch, Case

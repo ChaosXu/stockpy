@@ -55,6 +55,8 @@ class Range(Expr):
     def __eval_yc(self, stock: ExprCtx, year: int, quarter: int):
         '''returns the values in the Q4 if range by year_count'''
         vs = []
+        if quarter == 1:
+            year -= 1
         for y in range(year, year-self._yc, -1):
             vs.append(self._metrics.eval(stock, y, 4))
         return vs
