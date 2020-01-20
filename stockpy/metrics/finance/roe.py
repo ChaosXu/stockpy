@@ -40,7 +40,13 @@ def roe_ttm():
     return MetricsMeta('f_roe_ttm',
                        expr.Div(
                            expr.Get('f_income_attr_p_ttm'),
-                           expr.Get('total_hldr_eqy_exc_min_int')))
+                           expr.Div(
+                               expr.Sum(
+                                   expr.Get('total_hldr_eqy_exc_min_int'),
+                                   expr.Before(
+                                       expr.Get('total_hldr_eqy_exc_min_int'),
+                                       past_quarter=4)),
+                               expr.Value(2))))
 
 
 def metrics():

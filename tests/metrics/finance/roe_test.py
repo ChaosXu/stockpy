@@ -25,6 +25,7 @@ class RoeTest(unittest.TestCase):
                     1: 1
                 },
                 2018: {
+                    1: 1,
                     4: 3,
                 },
                 2017: {
@@ -55,4 +56,6 @@ class RoeTest(unittest.TestCase):
         v = m.expr.eval(self.stock, 2019, 1)
         s1 = expr.Get('f_income_attr_p_ttm').eval(self.stock, 2019, 1)
         s2 = expr.Get('total_hldr_eqy_exc_min_int').eval(self.stock, 2019, 1)
-        self.assertEqual(s1/s2, v)
+        s3 = expr.Get('total_hldr_eqy_exc_min_int').eval(self.stock, 2018, 1)
+
+        self.assertEqual(s1/(s2+s3)*2, v)
