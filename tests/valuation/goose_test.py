@@ -59,43 +59,43 @@ class GooseTest(unittest.TestCase):
         }
         cls.stock = StockMapStub(data)
 
-    # def test_market_cap(self):
-    #     m = goose.market_cap(7, 2)
+    def test_market_cap(self):
+        m = goose.market_cap(7, 2)
 
-    #     v = m.eval(self.stock, 2019, 1)
-    #     s1 = expr.Get('total_hldr_eqy_exc_min_int').eval(self.stock, 2019, 1)
-    #     s2 = expr.Get('f_roe_ttm').eval(self.stock, 2019, 1)
-    #     s3 = goose.growth_factor().eval(self.stock, 2019, 1)
-    #     self.assertEqual(s1*math.pow((1+s2), (7+2+s3)), v)
+        v = m.eval(self.stock, 2019, 1)
+        s1 = expr.Get('total_hldr_eqy_exc_min_int').eval(self.stock, 2019, 1)
+        s2 = expr.Get('f_roe_ttm').eval(self.stock, 2019, 1)
+        s3 = goose.growth_factor().eval(self.stock, 2019, 1)
+        self.assertEqual(s1*math.pow((1+s2), (7+2+s3)), v)
 
-    # def test_price_share(self):
-    #     mc = goose.market_cap(7, 2)
-    #     ps = goose.price_share(mc)
+    def test_price_share(self):
+        mc = goose.market_cap(7, 2)
+        ps = goose.price_share(mc)
 
-    #     v = ps.eval(self.stock, 2019, 1)
-    #     s1 = mc.eval(self.stock, 2019, 1)
-    #     s2 = expr.Get('total_share').eval(self.stock, 2019, 1)
-    #     self.assertEqual(s1/s2, v)
+        v = ps.eval(self.stock, 2019, 1)
+        s1 = mc.eval(self.stock, 2019, 1)
+        s2 = expr.Get('total_share').eval(self.stock, 2019, 1)
+        self.assertEqual(s1/s2, v)
 
-    # def test_price_buying(self):
-    #     mc = goose.market_cap(7, 2)
-    #     p = goose.price_share(mc)
-    #     pb = goose.price_buying(p)
+    def test_price_buying(self):
+        mc = goose.market_cap(7, 2)
+        p = goose.price_share(mc)
+        pb = goose.price_buying(p)
 
-    #     v = pb.eval(self.stock, 2019, 1)
-    #     s1 = p.eval(self.stock, 2019, 1)
-    #     s2 = goose.safety_factor().eval(self.stock, 2019, 1)
-    #     self.assertEqual(s1*s2, v)
+        v = pb.eval(self.stock, 2019, 1)
+        s1 = p.eval(self.stock, 2019, 1)
+        s2 = goose.safety_factor().eval(self.stock, 2019, 1)
+        self.assertEqual(s1*s2, v)
 
-    # def test_price_selling(self):
-    #     mc = goose.market_cap(7, 2)
-    #     p = goose.price_share(mc)
-    #     ps = goose.price_selling(p)
+    def test_price_selling(self):
+        mc = goose.market_cap(7, 2)
+        p = goose.price_share(mc)
+        ps = goose.price_selling(p)
 
-    #     v = p.eval(self.stock, 2019, 1)
-    #     s1 = ps.eval(self.stock, 2019, 1)
-    #     s2 = goose.premium_rate().eval(self.stock, 2019, 1)
-    #     self.assertEqual(s1*s2, v)
+        v = p.eval(self.stock, 2019, 1)
+        s1 = ps.eval(self.stock, 2019, 1)
+        s2 = goose.premium_rate().eval(self.stock, 2019, 1)
+        self.assertEqual(s1*s2, v)
 
     def test_growth_factor(self):
         g = goose.growth_factor()
