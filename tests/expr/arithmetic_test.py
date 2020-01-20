@@ -1,5 +1,5 @@
 import unittest
-from stockpy.expr import Sum, Sub, Div, Multi, Value
+from stockpy.expr import Sum, Sub, Div, Multi, Value, Power
 
 
 class ArithmeticTest(unittest.TestCase):
@@ -23,3 +23,8 @@ class ArithmeticTest(unittest.TestCase):
         div = Multi(Value(3), Value(2))
         v = div.eval(None, None, None)
         self.assertEqual(6, v)
+
+    def test_power(self):
+        div = Power(Value(3), Value(2))
+        v = div.eval(None, None, None)
+        self.assertEqual(9, v)

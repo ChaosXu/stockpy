@@ -1,5 +1,5 @@
 from stockpy.expr.base import Expr, ExprCtx
-from stockpy.expr.arithmetic import Sum, Sub, Div, Multi
+from stockpy.expr.arithmetic import Sum, Sub, Div, Multi, Power
 from stockpy.expr.crawl import Crawl
 from stockpy.expr.get import Get
 from stockpy.expr.range import Range

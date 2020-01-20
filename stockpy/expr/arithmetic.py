@@ -1,62 +1,82 @@
 from stockpy.expr.base import Expr
 from stockpy.expr.base import ExprCtx
+import math
 
 
 class ArithmeticExpr(Expr):
 
-    def __init__(self, left: Expr, right: Expr):
-        self.left = left
-        self.right = right
+    def __init__(self, *opds: Expr):
+        self._opds = opds
 
     def eval(self, stock: ExprCtx, year: int, quarter: int):
+        v = None
+        for opd in self._opds:
+            if isinstance(opd, list):
+                for opd2 in opd:
+                    v = self._op(stock, year, quarter, opd2, v)
+            else:
+                v = self._op(stock, year, quarter, opd, v)
+        return v
+
+    def _op(self, stock: ExprCtx, year: int, quarter: int, opd: Expr, v):
         pass
 
 
-class Sum(Expr):
+class Sum(ArithmeticExpr):
 
     def __init__(self, *opds: Expr):
-        self.opds = opds
+        super().__init__(*opds)
 
-    def eval(self, stock: ExprCtx, year: int, quarter: int):
-        sum = 0
-        for opd in self.opds:
-            if isinstance(opd, list):
-                for opd2 in opd:
-                    sum += opd2.eval(stock, year, quarter)
-            else:
-                sum += opd.eval(stock, year, quarter)
-        return sum
+    def _op(self, stock: ExprCtx, year: int, quarter: int, opd: Expr, v):
+        if v is None:
+            return opd.eval(stock, year, quarter)
+
+        return v + opd.eval(stock, year, quarter)
 
 
 class Sub(ArithmeticExpr):
 
     def __init__(self, *opds: Expr):
-        self.__opds = opds
+        super().__init__(*opds)
 
-    def eval(self, stock: ExprCtx, year: int, quarter: int):
-        try:
-            sub = self.__opds[0].eval(stock, year, quarter) * 2
-        except TypeError:
-            raise Exception('{}.{}'.format(year, quarter))
+    def _op(self, stock: ExprCtx, year: int, quarter: int, opd: Expr, v):
+        if v is None:
+            return opd.eval(stock, year, quarter)
 
-        for opd in self.__opds:
-            sub -= opd.eval(stock, year, quarter)
-        return sub
+        return v - opd.eval(stock, year, quarter)
 
 
 class Multi(ArithmeticExpr):
 
-    def __init__(self, left: Expr, right: Expr):
-        super().__init__(left, right)
+    def __init__(self, *opds: Expr):
+        super().__init__(*opds)
 
-    def eval(self, stock: ExprCtx, year: int, quarter: int):
-        return self.left.eval(stock, year, quarter) * self.right.eval(stock, year, quarter)
+    def _op(self, stock: ExprCtx, year: int, quarter: int, opd: Expr, v):
+        if v is None:
+            return opd.eval(stock, year, quarter)
+
+        return v * opd.eval(stock, year, quarter)
 
 
 class Div(ArithmeticExpr):
 
-    def __init__(self, left: Expr, right: Expr):
-        super().__init__(left, right)
+    def __init__(self, *opds: Expr):
+        super().__init__(*opds)
 
-    def eval(self, stock: ExprCtx, year: int, quarter: int):
-        return self.left.eval(stock, year, quarter) / self.right.eval(stock, year, quarter)
+    def _op(self, stock: ExprCtx, year: int, quarter: int, opd: Expr, v):
+        if v is None:
+            return opd.eval(stock, year, quarter)
+
+        return v / opd.eval(stock, year, quarter)
+
+
+class Power(ArithmeticExpr):
+
+    def __init__(self, *opds: Expr):
+        super().__init__(*opds)
+
+    def _op(self, stock: ExprCtx, year: int, quarter: int, opd: Expr, v):
+        if v is None:
+            return opd.eval(stock, year, quarter)
+
+        return math.pow(v, opd.eval(stock, year, quarter))
