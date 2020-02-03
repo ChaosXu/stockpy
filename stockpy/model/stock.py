@@ -95,16 +95,16 @@ class Stocks:
                       filter: BooleanExpr):
             def exec():
                 try:
-                    if logger.isEnabledFor(logging.INFO):
-                        logger.info('do_filter %s(%s) %s %s',
-                                    stock['ts_code'], stock['name'],
-                                    year, quarter)
+                    if logger.isEnabledFor(logging.DEBUG):
+                        logger.debug('do_filter %s(%s) %s %s',
+                                     stock['ts_code'], stock['name'],
+                                     year, quarter)
                     if filter.eval(stock, year, quarter) is True:
                         return stock
-                    return None
                 except Exception as e:
                     logger.error('filter error: %s %s',
                                  stock['name'], stock['ts_code'], exc_info=e)
+                return None
             return exec
 
         fs = []

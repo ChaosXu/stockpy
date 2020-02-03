@@ -122,13 +122,14 @@ class And(BooleanExpr):
     def __init__(self, *opds: BooleanExpr):
         self.__opds = opds
 
+    @trace
     def eval(self, stock: ExprCtx, year: int, quarter: int):
         for opd in self.__opds:
             if isinstance(opd, list):
                 for opd2 in opd:
-                    if opd2.eval(stock, year, quarter) is False:
+                    if not opd2.eval(stock, year, quarter):
                         return False
-            elif opd.eval(stock, year, quarter) is False:
+            elif not opd.eval(stock, year, quarter):
                 return False
 
         return True
@@ -149,6 +150,7 @@ class Or(BooleanExpr):
     def __init__(self, *opds: BooleanExpr):
         self.__opds = opds
 
+    @trace
     def eval(self, stock: ExprCtx, year: int, quarter: int):
         for opd in self.__opds:
             if isinstance(opd, list):

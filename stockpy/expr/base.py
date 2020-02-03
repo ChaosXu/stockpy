@@ -57,8 +57,9 @@ def trace(func):
                 stock = args[1]
                 y = args[2]
                 q = args[3]
-                logger.error('EXPR:%s(%s) %s %s %s [%s]', stock['ts_code'],
-                             stock['name'], y, q, e, func_self, exc_info=e)
+                logger.error('EXPR:%s(%s) %s %s [%s]', stock['ts_code'],
+                             stock['name'], y, q, func_self, exc_info=e)
+            raise
     return wrap_eval
 
 

@@ -14,7 +14,7 @@ class StockTest(unittest.TestCase):
             level=logging.DEBUG)
         cls.stock = Stock('tests/config/config.json')
 
-    def list_by_white_horse(self):
+    def test_list_by_white_horse(self):
         stocks = self.stock.list(year=2019, quarter=3, filter='w')
 
         print('total count', len(stocks))
@@ -23,40 +23,40 @@ class StockTest(unittest.TestCase):
 
     def print_verify(self, stocks):
         ts_codes = {'600612.SH': False,
-                    '600660.SH': False,
+                    # '600660.SH': False,
                     '600690.SH': False,
                     '000049.SZ': False,
-                    '600885.SH': False,
+                    # '600885.SH': False,
                     '600887.SH': False,
                     '000596.SZ': False,
                     '600763.SH': False,
                     '000651.SZ': False,
                     '000661.SZ': False,
-                    '000848.SZ': False,
-                    '000895.SZ': False,
+                    # '000848.SZ': False,
+                    # '000895.SZ': False,
                     '600167.SH': False,
-                    '000921.SZ': False,
+                    # '000921.SZ': False,
                     '000963.SZ': False,
                     '600276.SH': False,
-                    '600338.SH': False,
-                    '600566.SH': False,
+                    # '600338.SH': False,
+                    # '600566.SH': False,
                     '600519.SH': False,
                     '600036.SH': False,
-                    '600563.SH': False,
+                    # '600563.SH': False,
                     '600436.SH': False,
-                    '600340.SH': False,
+                    # '600340.SH': False,
                     '002007.SZ': False,
                     '002032.SZ': False,
                     '002081.SZ': False,
                     '601318.SH': False,
                     '002142.SZ': False,
                     '601009.SH': False,
-                    '002146.SZ': False,
+                    # '002146.SZ': False,
                     '002236.SZ': False,
                     '002242.SZ': False,
                     '002262.SZ': False,
                     '002271.SZ': False,
-                    '002275.SZ': False,
+                    # '002275.SZ': False,
                     '002287.SZ': False,
                     '002304.SZ': False,
                     '601877.SH': False,
@@ -99,7 +99,14 @@ class StockTest(unittest.TestCase):
                 print(k)
         print('miss count', kc)
 
-    def test_get_white_horse(self):
+    def get_white_horse(self):
+        stocks = self.stock.list(year=2019, quarter=3, filter='w')
+        for stock in stocks:
+            self.stock.eval(stock['ts_code'],
+                            2019, 3, f'{os.path.curdir}/out',
+                            report='w')
+
+    def get_test(self):
         self.stock.eval('600519.SH',
                         2019, 3, f'{os.path.curdir}/out',
                         report='w')

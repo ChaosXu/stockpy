@@ -25,7 +25,7 @@ class Client(Driver):
             'fields': fields
         }
 
-        while self.__buckets.acquire(1) is False:
+        while not self.__buckets.acquire(1):
             time.sleep(1)
 
         res = requests.post(self.__http_url, json=req_params,
