@@ -2,14 +2,11 @@ from stockpy.model.stock import Stocks
 from stockpy import expr
 
 
-def gooseFilter():
+def roe_ge_15_pct_last_3_years():
     pass
 
 
-class Goose:
-
-    filter = gooseFilter()
-
-    def perform(self, stocks: Stocks, year: int, quarter: int):
-        filter = self.filter
-        return stocks.queryByMetrics(year, quarter, filter)
+def gooseFilter():
+    return expr.And(
+        roe_ge_15_pct_last_3_years()
+    )

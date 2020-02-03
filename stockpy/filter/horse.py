@@ -20,12 +20,16 @@ def last_quarter_f_income_attr_p_q_r_y2y():
 
 def roe_ge_15_pct_last_7_year():
     return expr.And(
-        expr.Ge(
-            expr.Range(expr.Before(expr.Get('f_roe_y'), past_year=1),
-                       year_count=6),
-            expr.Value(0.15)
-        ),
+        roe_ge_15_pct_before_6_years(),
         roe_ge_15_pct_now()
+    )
+
+
+def roe_ge_15_pct_before_6_years():
+    return expr.Ge(
+        expr.Range(expr.Before(expr.Get('f_roe_y'), past_year=1),
+                   year_count=6),
+        expr.Value(0.15)
     )
 
 
@@ -40,7 +44,7 @@ def roe_ge_15_pct_now():
         return v[quarter]
 
     return expr.Ge(
-        expr.Get('f_roe_y'),
+        expr.Get('f_roe'),
         expr.FuncValue(fv)
     )
 
@@ -166,20 +170,13 @@ def current_y_gt_1_3_years():
 #     pass
 
 def horseFilter():
-    return expr.And(
-        roe_ge_15_pct_last_7_year(),
-        revenue_r_gt_0(),
-        income_attr_p_r_gt_0(),
-        revenue_y_gt_accounts_receive_3_years(),
-        revenue_y_gt_inventoires_3_years(),
-        current_y_gt_1_3_years()
-    )
-
-
-class Horse:
-
-    filter = horseFilter()
-
-    def perform(self, stocks: Stocks, year: int, quarter: int):
-        filter = self.filter
-        return stocks.queryByMetrics(year, quarter, filter)
+    return expr.Name('f:horse_filter', expr.And(
+        expr.Name('f:roe_ge_15_pct_last_7_year', roe_ge_15_pct_last_7_year()),
+        expr.Name('f:revenue_r_gt_0', revenue_r_gt_0()),
+        expr.Name('f:income_attr_p_r_gt_0', income_attr_p_r_gt_0()),
+        expr.Name('f:revenue_y_gt_accounts_receive_3_years',
+                  revenue_y_gt_accounts_receive_3_years()),
+        expr.Name('f:revenue_y_gt_inventoires_3_years',
+                  revenue_y_gt_inventoires_3_years()),
+        expr.Name('f:current_y_gt_1_3_years', current_y_gt_1_3_years())
+    ))

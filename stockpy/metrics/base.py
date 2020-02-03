@@ -1,5 +1,5 @@
 from stockpy.expr import ExprCtx
-from stockpy.expr import Expr
+from stockpy.expr import Expr, Name
 
 
 g_metrics = {}
@@ -9,7 +9,7 @@ class MetricsMeta:
 
     def __init__(self, name: str, expr: Expr):
         self._name = name
-        self._expr = expr
+        self._expr = Name(f'm:{name}', expr)
 
     @property
     def name(self):

@@ -1,9 +1,12 @@
+from stockpy.util.rate import RateLimiter
+from stockpy.db.driver import Driver
 import requests
 import simplejson as json
 import pandas as pd
 import time
-from stockpy.util.rate import RateLimiter
-from stockpy.db.driver import Driver
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Client(Driver):
@@ -31,5 +34,7 @@ class Client(Driver):
         if result['code'] != 0:
             raise Exception(result['msg'])
         data = result['data']
-        print('query', api_name, kwargs['ts_code'], kwargs['period'])
+        if logger.isEnabledFor(logging.INFO):
+            logger.info('%s %s %s', kwargs['ts_code'],
+                        api_name, kwargs['period'])
         return pd.DataFrame(data['items'], columns=data['fields'])

@@ -1,5 +1,6 @@
 from stockpy.expr.base import Expr
 from stockpy.expr.base import ExprCtx
+from stockpy.expr.base import trace
 import math
 
 
@@ -8,6 +9,7 @@ class ArithmeticExpr(Expr):
     def __init__(self, *opds: Expr):
         self._opds = opds
 
+    @trace
     def eval(self, stock: ExprCtx, year: int, quarter: int):
         v = None
         for opd in self._opds:
@@ -21,6 +23,12 @@ class ArithmeticExpr(Expr):
     def _op(self, stock: ExprCtx, year: int, quarter: int, opd: Expr, v):
         pass
 
+    def __str__(self):
+        ss = []
+        for opd in self._opds:
+            ss.append('{}'.format(opd))
+        return '{}({})'.format(self._str_op(), ' '.join(ss))
+
 
 class Sum(ArithmeticExpr):
 
@@ -32,6 +40,9 @@ class Sum(ArithmeticExpr):
             return opd.eval(stock, year, quarter)
 
         return v + opd.eval(stock, year, quarter)
+
+    def _str_op(self):
+        return '+'
 
 
 class Sub(ArithmeticExpr):
@@ -45,6 +56,9 @@ class Sub(ArithmeticExpr):
 
         return v - opd.eval(stock, year, quarter)
 
+    def _str_op(self):
+        return '-'
+
 
 class Multi(ArithmeticExpr):
 
@@ -56,6 +70,9 @@ class Multi(ArithmeticExpr):
             return opd.eval(stock, year, quarter)
 
         return v * opd.eval(stock, year, quarter)
+
+    def _str_op(self):
+        return '*'
 
 
 class Div(ArithmeticExpr):
@@ -69,6 +86,9 @@ class Div(ArithmeticExpr):
 
         return v / opd.eval(stock, year, quarter)
 
+    def _str_op(self):
+        return '/'
+
 
 class Power(ArithmeticExpr):
 
@@ -80,3 +100,6 @@ class Power(ArithmeticExpr):
             return opd.eval(stock, year, quarter)
 
         return math.pow(v, opd.eval(stock, year, quarter))
+
+    def _str_op(self):
+        return '^'

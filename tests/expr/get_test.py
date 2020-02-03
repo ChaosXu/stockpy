@@ -15,6 +15,7 @@ class TestGet(unittest.TestCase):
         get = Get('cumulative')
         v = get.eval(stock, 2019, 1)
         self.assertEqual(1, v)
+        print(get, '\r\n')
 
     def test_increment_q1(self):
         class StockStub(ExprCtx):
@@ -30,6 +31,7 @@ class TestGet(unittest.TestCase):
         get = Get('increment', increment=True)
         v = get.eval(stock, 2019, 1)
         self.assertEqual(2, v)
+        print(get, '\r\n')
 
     def test_increment_q4(self):
         class StockStub(ExprCtx):
@@ -45,3 +47,4 @@ class TestGet(unittest.TestCase):
         get = Get('increment', increment=True)
         v = get.eval(stock, 2019, 4)
         self.assertEqual(2, v)
+        print(get, '\r\n')

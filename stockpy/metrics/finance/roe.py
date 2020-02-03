@@ -24,6 +24,25 @@ def roe_y():
                                expr.Value(2))))
 
 
+def roe():
+    ''' 年度ROE(平均)
+        =净利润/净资产
+        =归母净利润/（期初+期末归母净资产）/2
+        =每股净利润/每股净资产
+        =销售净利率*总资产周转率*杠杆系数
+    '''
+    return MetricsMeta('f_roe',
+                       expr.Div(
+                           expr.Get('n_income_attr_p'),
+                           expr.Div(
+                               expr.Sum(
+                                   expr.Get('total_hldr_eqy_exc_min_int'),
+                                   expr.Get(
+                                       'total_hldr_eqy_exc_min_int',
+                                       period_begin=True)),
+                               expr.Value(2))))
+
+
 def roe_ttm():
     ''' 年度ROE(加权平均)
         根据中国证监会发布的《公开发行证券公司信息披露编报规则》第9号的通知的规定：加权平均净资产收益率(ROE)的计算公式如下：ROE= P/（E0 + NP÷2 + Ei×Mi÷M0 - Ej×Mj÷M0）
@@ -52,6 +71,7 @@ def roe_ttm():
 def metrics():
     metas = [
         roe_y(),
-        roe_ttm()
+        roe_ttm(),
+        roe()
     ]
     return metas

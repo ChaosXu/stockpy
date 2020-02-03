@@ -17,6 +17,7 @@ class TestRange(unittest.TestCase):
         v = rg.eval(stock, 2019, 1)
         self.assertEqual(1, len(v))
         self.assertEqual(1, v[0])
+        print(rg, '\r\n')
 
     def test_q2(self):
         class StockStub(ExprCtx):

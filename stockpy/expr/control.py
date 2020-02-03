@@ -1,5 +1,6 @@
 from stockpy.expr.base import Expr
 from stockpy.expr.base import ExprCtx
+from stockpy.expr.base import trace
 
 
 class Switch(Expr):
@@ -8,6 +9,7 @@ class Switch(Expr):
         self._cases = cases
         self._default = default
 
+    @trace
     def eval(self, stock: ExprCtx, year: int, quarter: int):
         for case in self._cases:
             v = case.eval(stock, year, quarter)
@@ -17,6 +19,15 @@ class Switch(Expr):
         if self._default is None:
             return None
         return self._default.eval(stock, year, quarter)
+
+    def __str__(self):
+        cs = []
+        for case in self._cases:
+            cs.append('{}'.case.format(case))
+
+        if self._default is not None:
+            ds = '{}'.format(self._default)
+        return 'Switch({}, default({}))'.format(', '.join(cs), ds)
 
 
 class Case(Expr):
@@ -30,3 +41,6 @@ class Case(Expr):
             return self._v.eval(stock, year, quarter)
 
         return None
+
+    def __str__(self):
+        return 'Case({}:{})'.format(self._condition, self._v)

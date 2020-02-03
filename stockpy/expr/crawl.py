@@ -1,5 +1,6 @@
 from stockpy.expr.base import Expr
 from stockpy.expr.base import ExprCtx
+from stockpy.expr.base import trace
 
 
 class Crawl(Expr):
@@ -14,5 +15,13 @@ class Crawl(Expr):
         self.__stat = stat
         self.__name = name
 
+    @trace
     def eval(self, stock: ExprCtx, year: int, quarter: int):
-        return stock.crawl_metrics(self.__stat, self.__name, year, quarter)
+        v = stock.crawl_metrics(self.__stat, self.__name, year, quarter)
+        if v is None:
+            raise Exception(
+                f'crawl_metrics {stock["ts_code"]}({stock["name"]}) {self.__stat} {self.__name} {year} {quarter} None')
+        return v
+
+    def __str__(self):
+        return "Crawl('{}', '{}')".format(self.__stat, self.__name)

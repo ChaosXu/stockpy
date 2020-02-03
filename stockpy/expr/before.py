@@ -1,6 +1,7 @@
 from stockpy.expr.base import Expr
 from stockpy.expr.base import ExprCtx
 from stockpy.expr.get import Get
+from stockpy.expr.base import trace
 import math
 
 
@@ -20,6 +21,7 @@ class Before(Expr):
         self._qc = past_quarter
         self._yc = past_year
 
+    @trace
     def eval(self, stock: ExprCtx, year: int, quarter: int):
         if self._yc != 0:
             return self.__eval_y(stock, year, quarter)
@@ -42,3 +44,10 @@ class Before(Expr):
             first_y = year - math.ceil((qc+1) / 4)
             first_qc = 4 - qc % 4
             return self._metrics.eval(stock, first_y, first_qc)
+
+    def __str__(self):
+        if self._qc != 0:
+            return 'Befor({}, past_quarter={})'.format(self._metrics, self._qc)
+        if self._yc != 0:
+            return 'Befor({}, past_year={})'.format(self._metrics, self._yc)
+        return 'past_year and past_quarter can not be zero'

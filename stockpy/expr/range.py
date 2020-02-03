@@ -1,6 +1,7 @@
 from stockpy.expr.base import Expr
 from stockpy.expr.base import ExprCtx
 from stockpy.expr.get import Get
+from stockpy.expr.base import trace
 import math
 
 
@@ -24,6 +25,7 @@ class Range(Expr):
         if self._qc == 0 and self._yc == 0:
             raise Exception('quarer_count and year_count can not be zero')
 
+    @trace
     def eval(self, stock: ExprCtx, year: int, quarter: int):
         if self._qc > 0:
             return self.__eval_qc(stock, year, quarter)
@@ -60,3 +62,9 @@ class Range(Expr):
         for y in range(year, year-self._yc, -1):
             vs.append(self._metrics.eval(stock, y, 4))
         return vs
+
+    def __str__(self):
+        if self._qc > 0:
+            return 'Range({},quarter_count={})'.format(self._metrics, self._qc)
+
+        return 'Range({},year_count={})'.format(self._metrics, self._yc)
