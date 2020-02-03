@@ -131,3 +131,5 @@ dmypy.json
 tests/config/
 tests/out/
 .vscode/
+
+out/

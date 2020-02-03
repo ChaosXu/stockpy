@@ -1,5 +1,5 @@
-import simplejson as json
 import os
+import json
 
 
 def load_json(path: str):
@@ -12,8 +12,8 @@ def load_json(path: str):
 
 def save_json(path: str, data):
     def do_save(path: str, data):
-        with open(path, 'w') as f:
-            data_json = json.dumps(data)
+        with open(path, 'w', encoding='utf-8',) as f:
+            data_json = json.dumps(data, ensure_ascii=False)
             f.write(data_json)
 
     try:

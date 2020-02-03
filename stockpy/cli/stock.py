@@ -1,7 +1,8 @@
 import sys
 import time
-from stockpy.cli import util
+from stockpy.util import json as util
 from stockpy.db.stock import StockDb
+from stockpy import expr
 
 
 class Stock():
@@ -46,12 +47,23 @@ class Stock():
         self.__list_to_cache(self.__cfg['cli']['cache'], year, quarter, data)
         return data
 
-    def evaluate(self, code: str):
+    def eval(self, ts_code: str, year: int, quarter: int, path: str,
+             report='w'):
         '''Evalute the value of a stock.
         Args:
-            code: stock code
+            ts_code: stock code
+            year: report year
+            quarter: report quarter
+            path: the path to be
+            report: report type. w=white horse.default is w.
         '''
-        pass
+        db = StockDb(**self.__cfg)
+        stocks = db.list()
+        filter = expr.Eq(expr.Get('i_ts_code'), expr.Value(ts_code))
+        stock = stocks.query_by_basic_info(filter)[0]
+        Report = self.__get_report(report)
+        report = Report(stock)
+        report.eval_and_save(path, year, quarter)
 
     def __list_from_cache(self, cache_root: str, y: int, q: int):
         return util.load_json(f'{cache_root}/list_white_horses_{y}_{q}.json')
@@ -74,6 +86,10 @@ class Stock():
         #     'revenue_y_gt_inventoires_3_years': horse.revenue_y_gt_inventoires_3_years(),
         #     'current_y_gt_1_3_years': horse.current_y_gt_1_3_years()
         # }
+
+    def __get_report(self, report: str):
+        from stockpy.report import horse
+        return horse.Report
 
 
 def date_to_y_q(date: str):

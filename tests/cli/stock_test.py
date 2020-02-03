@@ -1,4 +1,5 @@
 import unittest
+import os
 import logging
 from stockpy.cli.stock import Stock
 
@@ -7,13 +8,13 @@ class StockTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.stock = Stock('tests/config/config.json')
-
-    def test_list_by_white_horse(self):
         logging.basicConfig(
             filename='stockpy.log',
             format='%(levelname)s:%(asctime)s %(message)s',
-            level=logging.ERROR)
+            level=logging.DEBUG)
+        cls.stock = Stock('tests/config/config.json')
+
+    def list_by_white_horse(self):
         stocks = self.stock.list(year=2019, quarter=3, filter='w')
 
         print('total count', len(stocks))
@@ -97,3 +98,8 @@ class StockTest(unittest.TestCase):
                 kc += 1
                 print(k)
         print('miss count', kc)
+
+    def test_get_white_horse(self):
+        self.stock.eval('600519.SH',
+                        2019, 3, f'{os.path.curdir}/out',
+                        report='w')
