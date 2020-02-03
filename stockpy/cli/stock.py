@@ -1,6 +1,6 @@
 import sys
 import time
-from stockpy.cli import cfg
+from stockpy.cli import util
 from stockpy.db.stock import StockDb
 
 
@@ -11,11 +11,12 @@ class Stock():
     def __init__(self, config_path=''):
         if config_path == '':
             config_path = sys.path[0]+'/config.json'
-        self.__cfg = cfg.load_cfg(config_path)
+        self.__cfg = util.load_json(config_path)
 
     def list(self, year: int, quarter: int,
              date: str = None,
-             filter: str = 'w'):
+             filter: str = 'w',
+             cache: bool = True):
         '''Returns all stocks that match filter.
         Args:
             filter:
@@ -24,12 +25,26 @@ class Stock():
         '''
         if date is not None:
             year, quarter = date_to_y_q(date)
+
+        if cache:
+            try:
+                return self.__list_from_cache(self.__cfg['cli']['cache'],
+                                              year, quarter)
+            except FileNotFoundError:
+                # query
+                pass
+
         filter = self.__get_filter(filter)
 
         db = StockDb(**self.__cfg)
         stocks = db.list()
         sub_stocks = stocks.query_by_merics(year, quarter, filter)
-        return sub_stocks
+        data = []
+        for sub_stock in sub_stocks:
+            data.append(
+                {'ts_code': sub_stock['ts_code'], 'name': sub_stock['name']})
+        self.__list_to_cache(self.__cfg['cli']['cache'], year, quarter, data)
+        return data
 
     def evaluate(self, code: str):
         '''Evalute the value of a stock.
@@ -37,6 +52,12 @@ class Stock():
             code: stock code
         '''
         pass
+
+    def __list_from_cache(self, cache_root: str, y: int, q: int):
+        return util.load_json(f'{cache_root}/list_white_horses_{y}_{q}.json')
+
+    def __list_to_cache(self, cache_root: str, y: int, q: int, data):
+        util.save_json(f'{cache_root}/list_white_horses_{y}_{q}.json', data)
 
     def __get_filter(self, filter: str):
         if filter == 'g':
