@@ -62,9 +62,9 @@ def interest_bearing_liab_ratio():
     ''' 有息负债率 = 有息负债 / 总资产
         同行比较，越高风险越大
     '''
-    MetricsMeta('f_interest_bearing_liab_y.r',
-                expr.Div(expr.Get('f_interest_bearing_y'),
-                         expr.Get('f_total_assets_y')))
+    return MetricsMeta('f_interest_bearing_liab_y.r',
+                       expr.Div(expr.Get('f_interest_bearing_liab_y'),
+                                expr.Get('f_total_assets_y')))
 
 
 def current_ratio_y():
@@ -106,6 +106,7 @@ def metrics():
         inventories_y_y2y(),
         assets_liab_ratio_y(),
         interest_bearing_liab_y(),
+        interest_bearing_liab_ratio(),
         current_ratio_y(),
         quick_ratio_y(),
         quick_y()

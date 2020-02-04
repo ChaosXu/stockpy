@@ -28,6 +28,27 @@ def exp_3_ratio():
                                 expr.Get('revenue', period='y')))
 
 
+def sell_revenue_ratio():
+    '''销售费用占比'''
+    return MetricsMeta('f_sell_revenue_y.r',
+                       expr.Div(expr.Get('sell_exp', period='y'),
+                                expr.Get('revenue', period='y')))
+
+
+def revadmin_revenue_ratio():
+    '''管理费用占比'''
+    return MetricsMeta('f_revadmin_revenue_y.r',
+                       expr.Div(expr.Get('revadmin_expenue', period='y'),
+                                expr.Get('revenue', period='y')))
+
+
+def fin_exp_revenue_ratio():
+    '''财务费用占比'''
+    return MetricsMeta('f_fin_exp_revenue_y.r',
+                       expr.Div(expr.Get('fin_exp', period='y'),
+                                expr.Get('revenue', period='y')))
+
+
 def income_tax_ratio():
     '''所得税占比'''
     return MetricsMeta('f_income_tax_y.r',
@@ -68,6 +89,9 @@ def metrics():
 
         gross_profit_ratio(),
         exp_3_ratio(),
+        sell_revenue_ratio(),
+        revadmin_revenue_ratio(),
+        fin_exp_revenue_ratio(),
         income_tax_ratio(),
         total_assets()
     ]

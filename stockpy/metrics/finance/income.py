@@ -29,6 +29,11 @@ def revenue_y_y2y():
                                             past_year=1)))
 
 
+def revenue_y():
+    # 年度营业收入
+    return MetricsMeta('f_revenue_y', expr.Get('revenue', period='y'))
+
+
 def revenue_y_r_y2y():
     # 年度营业收入增长率((同比)
     return MetricsMeta('f_revenue_y.r_y2y',
@@ -94,6 +99,7 @@ def income_attr_p_ttm():
 
 def metrics():
     metas = [
+        revenue_y(),
         revenue_q_y2y(),
         revenue_q_r_y2y(),
         revenue_y_y2y(),

@@ -26,7 +26,7 @@ def receivables():
 def adv_receipt_ratio():
     '''营销:预收率'''
     return MetricsMeta('f_adv_receipt.r',
-                       expr.Sub(expr.Get('adv_receipts'),
+                       expr.Div(expr.Get('adv_receipts'),
                                 expr.Get('revenue')))
 
 

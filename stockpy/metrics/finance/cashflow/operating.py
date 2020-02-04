@@ -95,7 +95,7 @@ def acct_payable_ave_y():
 
 def net_operating_cycle():
     '''营销:净营业周期(年)'''
-    return MetricsMeta('f_net_op_cycle',
+    return MetricsMeta('f_net_op_cycle_y',
                        expr.Sub(expr.Sum(expr.Get('f_days_inventory_y'),
                                          expr.Get('f_days_accounts_receiv_y'),
                                          expr.Get('f_days_prepayment_y')),
