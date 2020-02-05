@@ -9,20 +9,22 @@ def roe_y():
         =每股净利润/每股净资产
         =销售净利率*总资产周转率*杠杆系数
     '''
-    return MetricsMeta('f_roe_y',
-                       expr.Div(
-                           expr.Get('n_income_attr_p',
-                                    period='y'),
-                           expr.Div(
-                               expr.Sum(
-                                   expr.Get('total_hldr_eqy_exc_min_int',
-                                            period='y'),
-                                   expr.Before(
-                                       expr.Get('total_hldr_eqy_exc_min_int',
-                                                period='y'),
-                                       past_year=1)),
-                               expr.Value(2))),
-                       display='ROE(年平均)')
+    return MetricsMeta(
+        'f_roe_y',
+        expr.Percent(
+            expr.Div(
+                expr.Get('n_income_attr_p',
+                         period='y'),
+                expr.Div(
+                    expr.Sum(
+                        expr.Get('total_hldr_eqy_exc_min_int',
+                                 period='y'),
+                        expr.Before(
+                            expr.Get('total_hldr_eqy_exc_min_int',
+                                     period='y'),
+                            past_year=1)),
+                    expr.Value(2)))),
+        display='ROE(年平均)')
 
 
 def roe():

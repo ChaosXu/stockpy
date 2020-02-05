@@ -77,6 +77,21 @@ class Name(Expr):
         return f'{self.__name}:{self.__expr}'
 
 
+class Percent(Expr):
+
+    def __init__(self, expr: Expr):
+        self.__expr = expr
+
+    @trace
+    def eval(self, stock: ExprCtx, year: int, quarter: int):
+        v = self.__expr.eval(stock, year, quarter)
+        v.set_data(round(v.data*100, 2))
+        return v
+
+    def __str__(self):
+        return f'%{self.__expr}'
+
+
 class ExprValue:
 
     def __init__(self, y: int, q: int, v):
@@ -95,6 +110,9 @@ class ExprValue:
     @property
     def data(self):
         return self.__v
+
+    def set_data(self, v):
+        self.__v = v
 
     def __eq__(self, value):
         return self.__v == value.__v

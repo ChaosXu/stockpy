@@ -49,23 +49,26 @@ def interest_bearing_liab_y():
     ''' 有息负债
         = 短期借款 + 1年内到期的长期负债 + 长期借款 + 应付债券 + 长期应付款
     '''
-    return MetricsMeta('f_interest_bearing_liab_y',
-                       expr.Sum(
-                           expr.Get('lt_borr', period='y'),
-                           expr.Get('st_borr', period='y'),
-                           expr.Get('bond_payable', period='y'),
-                           expr.Get('lt_payable', period='y'),
-                           expr.Get('non_cur_liab_due_1y', period='y')))
+    return MetricsMeta(
+        'f_interest_bearing_liab_y',
+        expr.Sum(
+            expr.Get('lt_borr', period='y'),
+            expr.Get('st_borr', period='y'),
+            expr.Get('bond_payable', period='y'),
+            expr.Get('lt_payable', period='y'),
+            expr.Get('non_cur_liab_due_1y', period='y')))
 
 
 def interest_bearing_liab_ratio():
     ''' 有息负债率 = 有息负债 / 总资产
         同行比较，越高风险越大
     '''
-    return MetricsMeta('f_interest_bearing_liab_y.r',
-                       expr.Div(expr.Get('f_interest_bearing_liab_y'),
-                                expr.Get('f_total_assets_y')),
-                       display='有息负债率')
+    return MetricsMeta(
+        'f_interest_bearing_liab_y.r',
+        expr.Percent(
+            expr.Div(expr.Get('f_interest_bearing_liab_y'),
+                     expr.Get('f_total_assets_y'))),
+        display='有息负债率%')
 
 
 def current_ratio_y():
