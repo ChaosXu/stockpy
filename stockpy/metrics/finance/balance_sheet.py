@@ -64,7 +64,8 @@ def interest_bearing_liab_ratio():
     '''
     return MetricsMeta('f_interest_bearing_liab_y.r',
                        expr.Div(expr.Get('f_interest_bearing_liab_y'),
-                                expr.Get('f_total_assets_y')))
+                                expr.Get('f_total_assets_y')),
+                       display='有息负债率')
 
 
 def current_ratio_y():

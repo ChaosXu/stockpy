@@ -21,7 +21,8 @@ def roe_y():
                                        expr.Get('total_hldr_eqy_exc_min_int',
                                                 period='y'),
                                        past_year=1)),
-                               expr.Value(2))))
+                               expr.Value(2))),
+                       display='ROE(年平均)')
 
 
 def roe():
@@ -65,7 +66,8 @@ def roe_ttm():
                                    expr.Before(
                                        expr.Get('total_hldr_eqy_exc_min_int'),
                                        past_quarter=4)),
-                               expr.Value(2))))
+                               expr.Value(2))),
+                       display='ROE(滚动)')
 
 
 def metrics():

@@ -7,7 +7,8 @@ def cashflow_free_y():
     return MetricsMeta('f_cashflow_free_y',
                        expr.Sub(
                            expr.Get('n_cashflow_act', period='y'),
-                           expr.Get('c_pay_acq_const_fiolta', period='y')))
+                           expr.Get('c_pay_acq_const_fiolta', period='y')),
+                       display='自由现金流')
 
 
 def cashflow_free_pay_10_years_ratio():
@@ -25,7 +26,8 @@ def cashflow_free_pay_10_years_ratio():
                                    expr.Get(
                                        'c_pay_acq_const_fiolta', period='y'),
                                    past_year=n)
-                                   for n in range(1, 10)])))
+                                   for n in range(1, 10)])),
+                       display='10年自由现金流与资本开支比')
 
 
 def net_profit_growth_pay_10_years_ratio():
@@ -43,7 +45,8 @@ def net_profit_growth_pay_10_years_ratio():
                                    expr.Get(
                                        'c_pay_acq_const_fiolta', period='y'),
                                    past_year=n)
-                                   for n in range(1, 10)])))
+                                   for n in range(1, 10)])),
+                       display='10年净利润增长与资本开支比')
 
 
 def metrics():

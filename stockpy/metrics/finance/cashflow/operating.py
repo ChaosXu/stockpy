@@ -100,7 +100,8 @@ def net_operating_cycle():
                                          expr.Get('f_days_accounts_receiv_y'),
                                          expr.Get('f_days_prepayment_y')),
                                 expr.Get('f_days_acct_payable_y'),
-                                expr.Get('f_days_adv_receipts_y')))
+                                expr.Get('f_days_adv_receipts_y')),
+                       display='净营业周期')
 
 
 def metrics():

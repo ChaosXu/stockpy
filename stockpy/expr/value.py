@@ -1,5 +1,6 @@
 from stockpy.expr.base import Expr
 from stockpy.expr.base import ExprCtx
+from stockpy.expr.base import ExprValue
 from stockpy.expr.base import trace
 
 
@@ -10,7 +11,7 @@ class Value(Expr):
 
     @trace
     def eval(self, stock: ExprCtx, year: int, quarter: int):
-        return self._v
+        return ExprValue(0, 0, self._v)
 
     def __str__(self):
         return 'Value({})'.format(self._v)

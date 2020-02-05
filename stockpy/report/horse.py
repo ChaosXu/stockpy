@@ -196,7 +196,7 @@ class Report:
             '营业收入': self.__get_metrics(
                 'f_revenue_y', y, q, 10),
             '总资产': self.__get_metrics(
-                'f_total_assets_tunrover_y.r', y, q, 10)
+                'f_total_assets_y', y, q, 10)
         }
         return c
 

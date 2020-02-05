@@ -75,3 +75,74 @@ class Name(Expr):
 
     def __str__(self):
         return f'{self.__name}:{self.__expr}'
+
+
+class ExprValue:
+
+    def __init__(self, y: int, q: int, v):
+        self.__y = y
+        self.__q = q
+        self.__v = v
+
+    @property
+    def year(self):
+        return self.__y
+
+    @property
+    def quarter(self):
+        return self.__q
+
+    @property
+    def data(self):
+        return self.__v
+
+    def __eq__(self, value):
+        return self.__v == value.__v
+
+    def __ne__(self, value):
+        return self.__v != value.__v
+
+    def __lt__(self, value):
+        return self.__v < value.__v
+
+    def __le__(self, value):
+        return self.__v <= value.__v
+
+    def __gt__(self, value):
+        return self.__v > value.__v
+
+    def __ge__(self, value):
+        return self.__v >= value.__v
+
+    def __add__(self, value):
+        return ExprValue(self.__get_return_y(value),
+                         self.__get_return_q(value),
+                         self.__v + value.__v)
+
+    def __sub__(self, value):
+        return ExprValue(self.__get_return_y(value),
+                         self.__get_return_q(value),
+                         self.__v - value.__v)
+
+    def __mul__(self, value):
+        return ExprValue(self.__get_return_y(value),
+                         self.__get_return_q(value),
+                         self.__v * value.__v)
+
+    def __truediv__(self, value):
+        return ExprValue(self.__get_return_y(value),
+                         self.__get_return_q(value),
+                         self.__v / value.__v)
+
+    def __str__(self):
+        return f'{self.__y}Q{self.__q}:{self.__v}'
+
+    def __get_return_y(self, v):
+        if self.__y < v.__y:
+            return v.__y
+        return self.__y
+
+    def __get_return_q(self, v):
+        if self.__y < v.__y and self.__q < v.__q:
+            return v.__q
+        return self.__q

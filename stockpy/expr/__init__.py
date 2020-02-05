@@ -1,4 +1,4 @@
-from stockpy.expr.base import Expr, ExprCtx, Name
+from stockpy.expr.base import Expr, ExprCtx, Name, ExprValue
 from stockpy.expr.arithmetic import Sum, Sub, Div, Multi, Power
 from stockpy.expr.crawl import Crawl
 from stockpy.expr.get import Get

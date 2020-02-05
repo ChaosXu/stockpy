@@ -1,9 +1,9 @@
 from stockpy.model.meta import StockMeta
 from stockpy.model.statement import Statement, StatementMixin
 from stockpy.metrics import MetricsMixin
-from stockpy.expr import ExprCtx, BooleanExpr
+from stockpy.expr import ExprCtx, BooleanExpr, ExprValue
+from stockpy.util import pandas as util_pd
 import pandas as pd
-import os
 import logging
 import concurrent
 
@@ -27,13 +27,9 @@ class Stock(ExprCtx, MetricsMixin, StatementMixin, metaclass=StockMeta):
     def get_metrics(self, name: str, year, quarter):
         # TBD
         if name.find('i_') == 0:
-            return self.__info[name[2:]]
+            return ExprValue(year, quarter, self.__info[name[2:]])
         else:
-            v = self.eval(self, name, year, quarter)
-            # logger.info('Get %s(%s) %s %s %s: %s',
-            #             self.__info['ts_code'], self.__info['name'], name,
-            #             year, quarter, v)
-            return v
+            return self.eval(self, name, year, quarter)
 
     def crawl_metrics(self, stat, name, year, quarter):
         # TBD
@@ -47,7 +43,7 @@ class Stock(ExprCtx, MetricsMixin, StatementMixin, metaclass=StockMeta):
         pass
 
 
-class Stocks:
+class Stocks(util_pd.DataFrameToExcelMixin):
 
     def __init__(self, stat: Statement, data: pd.DataFrame):
         self.__data = data
@@ -66,18 +62,22 @@ class Stocks:
             count += 1
         return count
 
-    def to_excel(self, file_path: str):
+    @property
+    def data_frame(self) -> pd.DataFrame:
+        return self.__data
 
-        def to_file():
-            with pd.ExcelWriter(file_path,
-                                date_format='YYYY-MM-DD',
-                                datetime_format='YYYY-MM-DD HH:MM:SS') as writer:
-                self.__data.to_excel(writer)
-        try:
-            to_file()
-        except FileNotFoundError:
-            os.makedirs(os.path.dirname(file_path))
-            to_file()
+    # def to_excel(self, file_path: str):
+
+    #     def to_file():
+    #         with pd.ExcelWriter(file_path,
+    #                             date_format='YYYY-MM-DD',
+    #                             datetime_format='YYYY-MM-DD HH:MM:SS') as writer:
+    #             self.__data.to_excel(writer)
+    #     try:
+    #         to_file()
+    #     except FileNotFoundError:
+    #         os.makedirs(os.path.dirname(file_path))
+    #         to_file()
 
     def query_by_basic_info(self, filter: BooleanExpr):
         '''filter by stock's info'''

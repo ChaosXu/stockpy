@@ -63,7 +63,9 @@ class Stock():
         stock = stocks.query_by_basic_info(filter)[0]
         Report = self.__get_report(report)
         report = Report(stock)
-        report.eval_and_save(path, year, quarter)
+        report.eval(year, quarter)
+        report.to_excel(
+            f'{path}/{ts_code}_{stock["name"]}_{year}_{quarter}.xlsx')
 
     def __list_from_cache(self, cache_root: str, y: int, q: int):
         return util.load_json(f'{cache_root}/list_white_horses_{y}_{q}.json')
@@ -88,8 +90,8 @@ class Stock():
         # }
 
     def __get_report(self, report: str):
-        from stockpy.report import horse
-        return horse.Report
+        from stockpy.report import horse2
+        return horse2.Report
 
 
 def date_to_y_q(date: str):
