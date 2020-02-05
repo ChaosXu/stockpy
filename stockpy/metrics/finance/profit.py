@@ -25,7 +25,7 @@ def exp_3_ratio():
     return MetricsMeta('f_exp_3_y.r',
                        expr.Div(expr.Sum(expr.Get('sell_exp', period='y'),
                                          expr.Get(
-                                             'revadmin_expenue', period='y'),
+                                             'admin_exp', period='y'),
                                          expr.Get('fin_exp', period='y')),
                                 expr.Get('revenue', period='y')),
                        display='三费占比')
@@ -39,10 +39,10 @@ def sell_revenue_ratio():
                        display='销售费用占比')
 
 
-def revadmin_revenue_ratio():
+def admin_revenue_ratio():
     '''管理费用占比'''
-    return MetricsMeta('f_revadmin_revenue_y.r',
-                       expr.Div(expr.Get('revadmin_expenue', period='y'),
+    return MetricsMeta('f_admin_revenue_y.r',
+                       expr.Div(expr.Get('admin_exp', period='y'),
                                 expr.Get('revenue', period='y')),
                        display='管理费用占比')
 
@@ -67,7 +67,12 @@ def total_assets_tunrover_rate():
     '''总资产周转率=营业收入/总资产'''
     return MetricsMeta('f_total_assets_tunrover_y.r',
                        expr.Div(expr.Get('revenue', period='y'),
-                                expr.Get('f_total_assets_y')),
+                                expr.Div(expr.Sum(expr.Get('f_total_assets_y'),
+                                                  expr.Before(expr.Get(
+                                                      'f_total_assets_y',
+                                                      period='y'), past_year=1)),
+                                         expr.Value(2))
+                                ),
                        display='总资产周转率')
 
 
@@ -101,7 +106,7 @@ def metrics():
         gross_profit_ratio(),
         exp_3_ratio(),
         sell_revenue_ratio(),
-        revadmin_revenue_ratio(),
+        admin_revenue_ratio(),
         fin_exp_revenue_ratio(),
         income_tax_ratio(),
         total_assets()
