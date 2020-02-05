@@ -99,7 +99,7 @@ class StockTest(unittest.TestCase):
                 print(k)
         print('miss count', kc)
 
-    def test_get_white_horse(self):
+    def get_white_horse(self):
         stocks = self.stock.list(year=2019, quarter=3, filter='w')
         for stock in stocks:
             try:
@@ -109,7 +109,7 @@ class StockTest(unittest.TestCase):
             except Exception as e:
                 print(stock['ts_code'], stock['name'], e)
 
-    def get_test(self):
-        self.stock.eval('600519.SH',
+    def test_get_test(self):
+        self.stock.eval('002415.SZ',
                         2019, 3, f'{os.path.curdir}/out',
                         report='w')

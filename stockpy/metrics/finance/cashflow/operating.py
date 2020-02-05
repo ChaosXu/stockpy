@@ -7,7 +7,8 @@ def days_inventory_y():
     return MetricsMeta('f_days_inventory_y',
                        expr.Div(expr.Multi(expr.Get('f_inventory_ave_y'),
                                            expr.Value(360)),
-                                expr.Get('oper_cost', period='y')))
+                                expr.Get('oper_cost', period='y')),
+                       display='存货周转天数')
 
 
 def inventroy_ave_y():
@@ -25,7 +26,8 @@ def days_accounts_receiv_y():
     return MetricsMeta('f_days_accounts_receiv_y',
                        expr.Div(expr.Multi(expr.Get('f_accounts_receiv_ave_y'),
                                            expr.Value(360)),
-                                expr.Get('c_fr_sale_sg', period='y')))
+                                expr.Get('revenue', period='y')),
+                       display='应收账款周转天数')
 
 
 def accounts_receiv_ave_y():
@@ -34,7 +36,13 @@ def accounts_receiv_ave_y():
                        expr.Div(
                            expr.Sum(
                                expr.Get('accounts_receiv', period='y'),
-                               expr.Before(expr.Get('accounts_receiv', period='y'), past_year=1)),
+                               expr.Before(
+                                   expr.Get('accounts_receiv', period='y'),
+                                   past_year=1),
+                               expr.Get('notes_receiv', period='y'),
+                               expr.Before(
+                                   expr.Get('notes_receiv', period='y'),
+                                   past_year=1)),
                            expr.Value(2)))
 
 
@@ -43,7 +51,8 @@ def days_prepayment_y():
     return MetricsMeta('f_days_prepayment_y',
                        expr.Div(expr.Multi(expr.Get('f_prepayment_ave_y'),
                                            expr.Value(360)),
-                                expr.Get('oper_cost', period='y')))
+                                expr.Get('oper_cost', period='y')),
+                       display='预付账款周转天数')
 
 
 def prepayment_ave_y():
@@ -62,7 +71,8 @@ def days_adv_receipts_y():
     return MetricsMeta('f_days_adv_receipts_y',
                        expr.Div(expr.Multi(expr.Get('f_adv_receipts_ave_y'),
                                            expr.Value(360)),
-                                expr.Get('c_fr_sale_sg', period='y')))
+                                expr.Get('revenue', period='y')),
+                       display='预收账款周转天数')
 
 
 def adv_receipts_ave_y():
@@ -80,7 +90,10 @@ def days_acct_payable_y():
     return MetricsMeta('f_days_acct_payable_y',
                        expr.Div(expr.Multi(expr.Get('f_acct_payable_ave_y'),
                                            expr.Value(360)),
-                                expr.Get('oper_cost', period='y')))
+                                expr.Sub(expr.Get('oper_cost', period='y'),
+                                         expr.Get('inventories', period='y')
+                                         )),
+                       display='应付账款周转天数')
 
 
 def acct_payable_ave_y():
@@ -89,7 +102,11 @@ def acct_payable_ave_y():
                        expr.Div(
                            expr.Sum(
                                expr.Get('acct_payable', period='y'),
-                               expr.Before(expr.Get('acct_payable', period='y'), past_year=1)),
+                               expr.Get('notes_payable', period='y'),
+                               expr.Before(expr.Get('acct_payable',
+                                                    period='y'), past_year=1),
+                               expr.Before(expr.Get('notes_payable',
+                                                    period='y'), past_year=1)),
                            expr.Value(2)))
 
 

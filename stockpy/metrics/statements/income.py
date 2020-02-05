@@ -57,11 +57,11 @@ def metrics():
         # sell_exp	float	Y	减:销售费用
         MetricsMeta('sell_exp', Crawl('income', 'sell_exp')),
         # admin_exp	float	Y	减:管理费用
-        MetricsMeta('revadmin_expenue', Crawl('income', 'admin_exp')),
+        MetricsMeta('admin_exp', Crawl('income', 'admin_exp')),
         # fin_exp	float	Y	减:财务费用
         MetricsMeta('fin_exp', Crawl('income', 'fin_exp')),
         # assets_impair_loss	float	Y	减:资产减值损失
-        MetricsMeta('reveassets_impair_lossnue',
+        MetricsMeta('assets_impair_lossnue',
                     Crawl('income', 'assets_impair_loss')),
         # prem_refund	float	Y	退保金
         MetricsMeta('prem_refund', Crawl('income', 'prem_refund')),
