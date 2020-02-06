@@ -14,7 +14,6 @@ class ReportBase(pd_util.DataFrameToExcelMixin):
 
     def eval(self, year: int, quarter: int):
         self.__df = self.__load_data(year, quarter)
-        print(self.__df.head())
 
     @property
     def data_frame(self) -> pd.DataFrame:
@@ -40,5 +39,5 @@ class ReportBase(pd_util.DataFrameToExcelMixin):
         data = {}
         for y in range(y, y-count, -1):
             v = self.__stock.get_metrics(metrics, y, q)
-            data[f'{v.year}Q{v.quarter}'] = v.data
+            data[f'{v.year}Q{v.quarter}'] = v.round(2)
         return data

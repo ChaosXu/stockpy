@@ -85,7 +85,7 @@ class Div(ArithmeticExpr):
             return opd.eval(stock, year, quarter)
 
         v = v / opd.eval(stock, year, quarter)
-        v.set_data(round(v.data, 2))
+        # v.set_data(round(v.data, 2))
         return v
 
     def _str_op(self):

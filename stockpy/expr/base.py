@@ -114,6 +114,9 @@ class ExprValue:
     def set_data(self, v):
         self.__v = v
 
+    def round(self, ndigits):
+        return round(self.__v, ndigits)
+
     def __eq__(self, value):
         return self.__v == value.__v
 

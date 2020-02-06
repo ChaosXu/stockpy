@@ -44,11 +44,17 @@ class DataFrameCache(Cache):
     def __init__(self, **opts):
         super().__init__(**opts)
         self.__lock = th.Lock()
+        self.__cache = {}
 
     def get(self, type: str) -> pd.DataFrame:
         with self.__lock:
             try:
-                return pd.read_csv(self._file_path(type))
+                if type in self.__cache:
+                    data = self.__cache[type]
+                else:
+                    data = pd.read_csv(self._file_path(type))
+                    self.__cache[type] = data
+                return data
             except FileNotFoundError:
                 return None
 
@@ -56,6 +62,7 @@ class DataFrameCache(Cache):
         file_path = self._file_path(type)
 
         def do_save():
+            self.__cache[type] = data
             data.to_csv(file_path)
 
         with self.__lock:
