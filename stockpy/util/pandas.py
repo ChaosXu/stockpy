@@ -29,16 +29,28 @@ class DataFrameToExcelMixin:
 class DataFrameToChartMixin:
 
     def to_chart(self, file_path: str, title: str):
+        self.__draw_plots(title)
+        plt.savefig(file_path, dpi=600)
+
+    def show(self, title: str):
+        self.__draw_plots(title)
+        plt.show()
+
+    def __draw_plots(self, title: str):
         charts = self._get_charts()
+        col = 4
+        if len(charts) == 1:
+            col = 1
         c = math.ceil(len(charts)/4)
-        fig, axs = plt.subplots(c, 4, figsize=(14, 8.5))
-        fig.suptitle(title, fontsize=10)
-        fig.subplots_adjust(top=0.93, right=0.93, left=0.07,
-                            wspace=0.3, hspace=0.15*c)
+        # fig, axs = plt.subplots(c, col, figsize=(14, 8.5))
+        fig, axs = plt.subplots(c, col)
+        # fig.suptitle(title, fontsize=10)
+        # fig.subplots_adjust(top=0.93, right=0.93, left=0.07,
+        #                     wspace=0.3, hspace=0.15*c)
         i = 0
         for k, chart in charts.items():
-            row = int(i/4)
-            col = i % 4
+            row = int(i/col)
+            col = i % col
             scale = None
             unit = None
             if 'scale' in chart:
@@ -48,14 +60,16 @@ class DataFrameToChartMixin:
                 title = f'{k}({unit})'
             else:
                 title = k
-            self.__draw_plot(axs[row][col],
+            if row == 0 and col == 0:
+                ax = axs
+            else:
+                ax = axs[row][col]
+            self.__draw_plot(ax,
                              title,
                              chart['group'],
                              scale,
                              unit)
             i += 1
-        # plt.show()
-        plt.savefig(file_path, dpi=600)
 
     def __draw_plot(self, ax, title: str, metrics: [], scale: int, unit: str):
 

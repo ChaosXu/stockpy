@@ -98,6 +98,20 @@ class Stock():
             except Exception as e:
                 print(e)
 
+    def show(self, ts_code: str, year: int, quarter: int, metrics: []):
+        db = StockDb(**self.__cfg)
+        stocks = db.list()
+        filter = expr.Eq(expr.Get('i_ts_code'), expr.Value(ts_code))
+
+        selected = stocks.query_by_basic_info(filter)
+        stock = selected[0]
+        Report = self.__get_metrics_report()
+
+        report = Report(stock)
+        report.set_metrics(metrics)
+        report.eval(year, quarter)
+        report.show(f'{stock["ts_code"]}({stock["name"]})')
+
     def __list_from_cache(self, cache_root: str, y: int, q: int):
         return util.load_json(f'{cache_root}/list_white_horses_{y}_{q}.json')
 
@@ -124,6 +138,10 @@ class Stock():
     def __get_report(self, report: str):
         from stockpy.report import horse2
         return horse2.Report
+
+    def __get_metrics_report(self):
+        from stockpy.report import metrics
+        return metrics.Report
 
 
 def date_to_y_q(date: str):

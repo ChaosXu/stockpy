@@ -1,0 +1,16 @@
+{
+    "to_excel_path": "/Users/chaosxu/stock/excel",
+    "data_cache": {
+        "data_path": "/Users/chaosxu/stock"
+    },
+    "data_provider": {
+        "http_url": "https://api.tushare.pro",
+        "token": "dcb84cd0fbd1104fbf47d1a87da9eb5ff2356aefa36cac435aaf5e58",
+        "timeout": 20,
+        "rate": 1,
+        "capacity": 1
+    },
+    "cli": {
+        "cache": "/Users/chaosxu/stock/cli/cache"
+    }
+}

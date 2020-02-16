@@ -1,12 +1,6 @@
 from stockpy.cli.stock import Stock
 import logging
 import unittest
-import os
-import sys
-print(os.getcwd())
-print(sys.path)
-
-
 
 
 class StockTest(unittest.TestCase):
@@ -110,8 +104,55 @@ class StockTest(unittest.TestCase):
                         f'{os.path.curdir}/out',
                         report='w')
 
-    def test_get_test(self):
+    def _get_test(self):
         self.stock.eval('002236.SZ',
                         2019, 3,
                         f'{os.path.curdir}/out',
                         report='w')
+
+    def test_show(self):
+        y = 7
+        g = 10000000
+        u = '千万'
+        r = '%'
+        metrics = [
+            {
+                'metrics': 'revenue_y',
+                'years': y,
+                'scale': g,
+                'unit': u,
+                'group': ('主营业务',)
+            },
+            {
+                'metrics': 'f_gross_profit_y',
+                'years': y,
+                'scale': g,
+                'unit': u,
+                'group': ('主营业务',)
+            },
+            {
+                'metrics': 'n_income_attr_p_y',
+                'years': y,
+                'scale': g,
+                'unit': u,
+                'group': ('主营业务',)
+            },
+            {
+                'metrics': 'accounts_receiv_y',
+                'years': y,
+                'scale': g,
+                'unit': u,
+                'group': ('主营业务',)
+            },
+            {
+                'metrics': 'inventories_y',
+                'years': y,
+                'scale': g,
+                'unit': u,
+                'group': ('主营业务',)
+            }
+        ]
+
+        self.stock.show('002236.SZ',
+                        2019, 3,
+                        metrics)
