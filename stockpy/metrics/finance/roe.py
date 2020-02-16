@@ -2,29 +2,27 @@ from stockpy.metrics.base import MetricsMeta
 from stockpy import expr
 
 
-def roe_y():
-    ''' 年度ROE(平均)
-        =净利润/净资产
-        =归母净利润/（期初+期末归母净资产）/2
-        =每股净利润/每股净资产
-        =销售净利率*总资产周转率*杠杆系数
-    '''
-    return MetricsMeta(
-        'f_roe_y',
-        expr.Percent(
-            expr.Div(
-                expr.Get('n_income_attr_p',
-                         period='y'),
-                expr.Div(
-                    expr.Sum(
-                        expr.Get('total_hldr_eqy_exc_min_int',
-                                 period='y'),
-                        expr.Before(
-                            expr.Get('total_hldr_eqy_exc_min_int',
-                                     period='y'),
-                            past_year=1)),
-                    expr.Value(2)))),
-        display='ROE(年平均)')
+# def roe_y():
+#     ''' 年度ROE(平均)
+#         =净利润/净资产
+#         =归母净利润/（期初+期末归母净资产）/2
+#         =每股净利润/每股净资产
+#     '''
+#     return MetricsMeta(
+#         'f_roe_y',
+#         expr.Div(
+#             expr.Get('n_income_attr_p',
+#                      period='y'),
+#             expr.Div(
+#                 expr.Sum(
+#                     expr.Get('total_hldr_eqy_exc_min_int',
+#                              period='y'),
+#                     expr.Before(
+#                         expr.Get('total_hldr_eqy_exc_min_int',
+#                                  period='y'),
+#                         past_year=1)),
+#                 expr.Value(2))),
+#         display='ROE(年平均)')
 
 
 def roe():
@@ -74,7 +72,7 @@ def roe_ttm():
 
 def metrics():
     metas = [
-        roe_y(),
+        # roe_y(),
         roe_ttm(),
         roe()
     ]

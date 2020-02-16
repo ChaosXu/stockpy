@@ -1,5 +1,6 @@
 import sys
 import time
+import concurrent
 from stockpy.util import json as util
 from stockpy.db.stock import StockDb
 from stockpy import expr
@@ -16,8 +17,7 @@ class Stock():
 
     def list(self, year: int, quarter: int,
              date: str = None,
-             filter: str = 'w',
-             cache: bool = True):
+             filter: str = 'w'):
         '''Returns all stocks that match filter.
         Args:
             filter:
@@ -27,13 +27,13 @@ class Stock():
         if date is not None:
             year, quarter = date_to_y_q(date)
 
-        if cache:
-            try:
-                return self.__list_from_cache(self.__cfg['cli']['cache'],
-                                              year, quarter)
-            except FileNotFoundError:
-                # query
-                pass
+        # if cache:
+        #     try:
+        #         return self.__list_from_cache(self.__cfg['cli']['cache'],
+        #                                       year, quarter)
+        #     except FileNotFoundError:
+        #         # query
+        #         pass
 
         filter = self.__get_filter(filter)
 
@@ -60,12 +60,43 @@ class Stock():
         db = StockDb(**self.__cfg)
         stocks = db.list()
         filter = expr.Eq(expr.Get('i_ts_code'), expr.Value(ts_code))
-        stock = stocks.query_by_basic_info(filter)[0]
+        if ts_code is None:
+            filter = expr.Eq(expr.Value(1), expr.Value(1))
+        selected = stocks.query_by_basic_info(filter)
         Report = self.__get_report(report)
-        report = Report(stock)
-        report.eval(year, quarter)
-        report.to_excel(
-            f'{path}/{ts_code}_{stock["name"]}_{year}_{quarter}.xlsx')
+
+        def do_report(stock, y, q):
+            try:
+                print(stock['ts_code'], stock['name'], 'to_excel')
+                report = Report(stock)
+                report.eval(year, quarter)
+
+                report.to_excel(
+                    f'{path}/{stock["ts_code"]}_{stock["name"]}_{year}_{quarter}.xlsx')
+                return report
+            except Exception as e:
+                print(stock['ts_code'], stock['name'], e)
+
+        fs = []
+        for stock in selected:
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                fs.append(
+                    {
+                        'r': executor.submit(do_report, stock, year, quarter),
+                        'ts_code': stock['ts_code'],
+                        'name': stock['name'],
+                    })
+        for stock in fs:
+            try:
+                report = stock['r'].result()
+                if report is None:
+                    continue
+                report.to_chart(
+                    f'{path}/{stock["ts_code"]}_{stock["name"]}_{year}_{quarter}.pdf',
+                    f'{stock["ts_code"]} {stock["name"]} {year}年{quarter}季'
+                )
+            except Exception as e:
+                print(e)
 
     def __list_from_cache(self, cache_root: str, y: int, q: int):
         return util.load_json(f'{cache_root}/list_white_horses_{y}_{q}.json')
@@ -77,7 +108,8 @@ class Stock():
         if filter == 'g':
             from stockpy.filter.goose import gooseFilter
             return gooseFilter()
-
+        elif filter == 'a':
+            return expr.Eq(expr.Value(1), expr.Value(1))
         from stockpy.filter import horse
         return horse.horseFilter()
         # return {

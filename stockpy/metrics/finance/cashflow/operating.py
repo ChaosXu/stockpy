@@ -3,7 +3,7 @@ from stockpy import expr
 
 
 def days_inventory_y():
-    '''存货周转天数(年)'''
+    '''存货周转天数'''
     return MetricsMeta('f_days_inventory_y',
                        expr.Div(expr.Multi(expr.Get('f_inventory_ave_y'),
                                            expr.Value(360)),
@@ -12,7 +12,7 @@ def days_inventory_y():
 
 
 def inventroy_ave_y():
-    '''平均存货(年)'''
+    '''平均存货'''
     return MetricsMeta('f_inventory_ave_y',
                        expr.Div(
                            expr.Sum(
@@ -22,7 +22,7 @@ def inventroy_ave_y():
 
 
 def days_accounts_receiv_y():
-    '''应收账款周转天数(年)'''
+    '''应收账款周转天数'''
     return MetricsMeta('f_days_accounts_receiv_y',
                        expr.Div(expr.Multi(expr.Get('f_accounts_receiv_ave_y'),
                                            expr.Value(360)),
@@ -31,7 +31,7 @@ def days_accounts_receiv_y():
 
 
 def accounts_receiv_ave_y():
-    '''平均应收账款(年)'''
+    '''平均应收账款'''
     return MetricsMeta('f_accounts_receiv_ave_y',
                        expr.Div(
                            expr.Sum(
@@ -47,7 +47,7 @@ def accounts_receiv_ave_y():
 
 
 def days_prepayment_y():
-    '''预付账款周转天数(年)'''
+    '''预付账款周转天数'''
     return MetricsMeta('f_days_prepayment_y',
                        expr.Div(expr.Multi(expr.Get('f_prepayment_ave_y'),
                                            expr.Value(360)),
@@ -56,7 +56,7 @@ def days_prepayment_y():
 
 
 def prepayment_ave_y():
-    '''平均预付账款(年)'''
+    '''平均预付账款'''
     return MetricsMeta('f_prepayment_ave_y',
                        expr.Div(
                            expr.Sum(
@@ -67,7 +67,7 @@ def prepayment_ave_y():
 
 
 def days_adv_receipts_y():
-    '''预收账款周转天数(年)'''
+    '''预收账款周转天数'''
     return MetricsMeta('f_days_adv_receipts_y',
                        expr.Div(expr.Multi(expr.Get('f_adv_receipts_ave_y'),
                                            expr.Value(360)),
@@ -76,7 +76,7 @@ def days_adv_receipts_y():
 
 
 def adv_receipts_ave_y():
-    '''平均预收账款(年)'''
+    '''平均预收账款'''
     return MetricsMeta('f_adv_receipts_ave_y',
                        expr.Div(
                            expr.Sum(
@@ -86,7 +86,7 @@ def adv_receipts_ave_y():
 
 
 def days_acct_payable_y():
-    '''应付账款周转天数(年)'''
+    '''应付账款周转天数'''
     return MetricsMeta('f_days_acct_payable_y',
                        expr.Div(expr.Multi(expr.Get('f_acct_payable_ave_y'),
                                            expr.Value(360)),
@@ -97,7 +97,7 @@ def days_acct_payable_y():
 
 
 def acct_payable_ave_y():
-    '''平均应付账款(年)'''
+    '''平均应付账款'''
     return MetricsMeta('f_acct_payable_ave_y',
                        expr.Div(
                            expr.Sum(
@@ -111,7 +111,7 @@ def acct_payable_ave_y():
 
 
 def net_operating_cycle():
-    '''营销:净营业周期(年)'''
+    '''营销:净营业周期'''
     return MetricsMeta('f_net_op_cycle_y',
                        expr.Sub(expr.Sum(expr.Get('f_days_inventory_y'),
                                          expr.Get('f_days_accounts_receiv_y'),

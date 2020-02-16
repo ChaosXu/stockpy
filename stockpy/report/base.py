@@ -1,9 +1,12 @@
 from stockpy.model.stock import Stock
 from stockpy.util import pandas as pd_util
 import pandas as pd
+import matplotlib.pyplot as plt
+plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
 
 
-class ReportBase(pd_util.DataFrameToExcelMixin):
+class ReportBase(pd_util.DataFrameToExcelMixin, pd_util.DataFrameToChartMixin):
     '''The base class of report'''
 
     def __init__(self, stock: Stock):
@@ -12,8 +15,13 @@ class ReportBase(pd_util.DataFrameToExcelMixin):
     def _get_metrics(self):
         pass
 
+    def _get_charts(self):
+        pass
+
     def eval(self, year: int, quarter: int):
         self.__df = self.__load_data(year, quarter)
+        # self.__to_chart(
+        #     f'{self.__stock["ts_code"]} {self.__stock["name"]} {year}年{quarter}季')
 
     @property
     def data_frame(self) -> pd.DataFrame:
@@ -37,7 +45,7 @@ class ReportBase(pd_util.DataFrameToExcelMixin):
 
     def __load_series(self, metrics: str, y: int, q: int, count: int):
         data = {}
-        for y in range(y, y-count, -1):
+        for y in range(y-count+1, y+1):
             v = self.__stock.get_metrics(metrics, y, q)
-            data[f'{v.year}Q{v.quarter}'] = v.round(2)
+            data[f'{v.year}Q{v.quarter}'] = v.data
         return data

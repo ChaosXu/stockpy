@@ -1,7 +1,12 @@
+from stockpy.cli.stock import Stock
+import logging
 import unittest
 import os
-import logging
-from stockpy.cli.stock import Stock
+import sys
+print(os.getcwd())
+print(sys.path)
+
+
 
 
 class StockTest(unittest.TestCase):
@@ -99,17 +104,14 @@ class StockTest(unittest.TestCase):
                 print(k)
         print('miss count', kc)
 
-    def test_get_white_horse(self):
-        stocks = self.stock.list(year=2019, quarter=3, filter='w')
-        for stock in stocks:
-            try:
-                self.stock.eval(stock['ts_code'],
-                                2019, 3, f'{os.path.curdir}/out',
-                                report='w')
-            except Exception as e:
-                print(stock['ts_code'], stock['name'], e)
+    def get_white_horse(self):
+        self.stock.eval(None,
+                        2019, 3,
+                        f'{os.path.curdir}/out',
+                        report='w')
 
-    def get_test(self):
+    def test_get_test(self):
         self.stock.eval('002236.SZ',
-                        2019, 3, f'{os.path.curdir}/out',
+                        2019, 3,
+                        f'{os.path.curdir}/out',
                         report='w')

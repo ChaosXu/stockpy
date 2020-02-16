@@ -13,6 +13,12 @@ simplejson = "*"
 pandas = "*"
 openpyxl = "*"
 fire = "*"
+matplotlib = "*"
+jupyter = "*"
+setuptools = "*"
+wheel = "*"
+dist = {editable = true,version = "*"}
+stockpy = {path = "./dist/stockpy-0.0.1.tar.gz"}
 
 [requires]
 python_version = "3.7"

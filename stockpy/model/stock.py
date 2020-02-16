@@ -111,7 +111,7 @@ class Stocks(util_pd.DataFrameToExcelMixin):
         for stock in self:
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 fs.append(executor.submit(
-                    do_filter(stock, year, quarter, filter)))
+                    do_filter, stock, year, quarter, filter))
         stocks = []
         for f in fs:
             s = f.result()
@@ -146,8 +146,9 @@ class Stocks(util_pd.DataFrameToExcelMixin):
         fs = []
         for stock in self:
             with concurrent.futures.ThreadPoolExecutor() as executor:
-                fs.append(executor.submit(
-                    do_filter(stock, year, quarter, filter)))
+                fs.append(
+                    executor.submit(
+                        do_filter, stock, year, quarter, filter))
         stocks = []
         for f in fs:
             r = f.result()
