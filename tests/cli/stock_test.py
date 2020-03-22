@@ -1,6 +1,7 @@
 from stockpy.cli.stock import Stock
 import logging
 import unittest
+import os
 
 
 class StockTest(unittest.TestCase):
@@ -98,19 +99,19 @@ class StockTest(unittest.TestCase):
                 print(k)
         print('miss count', kc)
 
-    def get_white_horse(self):
+    def _get_white_horse(self):
         self.stock.eval(None,
                         2019, 3,
                         f'{os.path.curdir}/out',
                         report='w')
 
-    def _get_test(self):
+    def test_get_test(self):
         self.stock.eval('002236.SZ',
                         2019, 3,
                         f'{os.path.curdir}/out',
                         report='w')
 
-    def test_show(self):
+    def _show(self):
         y = 7
         g = 10000000
         u = '千万'

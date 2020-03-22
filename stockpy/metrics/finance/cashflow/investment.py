@@ -11,6 +11,15 @@ def cashflow_free_y():
                        display='自由现金流')
 
 
+def cashflow_free():
+    '''投资:自由现金流'''
+    return MetricsMeta('f_cashflow_free',
+                       expr.Sub(
+                           expr.Get('n_cashflow_act'),
+                           expr.Get('c_pay_acq_const_fiolta')),
+                       display='自由现金流')
+
+
 def cashflow_free_pay_10_years_ratio():
     '''10年自由现金流/10年资本开支比'''
     return MetricsMeta('f_cashflow_free_pay_10_y.r',
@@ -58,6 +67,7 @@ def net_profit_growth_pay_10_years_ratio():
 def metrics():
     metas = [
         cashflow_free_y(),
+        cashflow_free(),
         cashflow_free_pay_10_years_ratio(),
         net_profit_growth_pay_10_years_ratio(),
         f_pay_acq_const_fiolta_y()

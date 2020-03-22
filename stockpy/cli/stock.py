@@ -91,6 +91,7 @@ class Stock():
                 report = stock['r'].result()
                 if report is None:
                     continue
+                print(stock['ts_code'], stock['name'], 'to_chart')
                 report.to_chart(
                     f'{path}/{stock["ts_code"]}_{stock["name"]}_{year}_{quarter}.pdf',
                     f'{stock["ts_code"]} {stock["name"]} {year}年{quarter}季'

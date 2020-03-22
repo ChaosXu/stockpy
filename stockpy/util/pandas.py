@@ -1,7 +1,13 @@
 import math
 import pandas as pd
 import os
+import matplotlib as mpl
 import matplotlib.pyplot as plt
+
+import matplotlib as mpl
+sorted(mpl.style.available)
+print(mpl.style.available)
+mpl.style.use('seaborn-paper')
 plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
 plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
 
@@ -42,15 +48,13 @@ class DataFrameToChartMixin:
         if len(charts) == 1:
             col = 1
         c = math.ceil(len(charts)/4)
-        # fig, axs = plt.subplots(c, col, figsize=(14, 8.5))
-        fig, axs = plt.subplots(c, col)
-        # fig.suptitle(title, fontsize=10)
-        # fig.subplots_adjust(top=0.93, right=0.93, left=0.07,
-        #                     wspace=0.3, hspace=0.15*c)
+        fig = plt.figure(figsize=(14, 8.5))
+        fig.suptitle(title, fontsize=10)
+        fig.subplots_adjust(top=0.93, right=0.93, left=0.07,
+                            wspace=0.3, hspace=0.15*c)
         i = 0
         for k, chart in charts.items():
-            row = int(i/col)
-            col = i % col
+            i += 1
             scale = None
             unit = None
             if 'scale' in chart:
@@ -60,25 +64,22 @@ class DataFrameToChartMixin:
                 title = f'{k}({unit})'
             else:
                 title = k
-            if row == 0 and col == 0:
-                ax = axs
-            else:
-                ax = axs[row][col]
+
+            ax = fig.add_subplot(c, col, i)
             self.__draw_plot(ax,
                              title,
                              chart['group'],
                              scale,
                              unit)
-            i += 1
 
     def __draw_plot(self, ax, title: str, metrics: [], scale: int, unit: str):
 
         df = self.data_frame[metrics]
-
         for col in df.columns:
             ax.plot(df[col], label=col)
 
         ax.set_title(title, fontsize=9)
+        
         if scale is not None or unit is not None:
             ax.yaxis.set_major_formatter(self.__axis_scale(scale, unit))
         ax.grid()

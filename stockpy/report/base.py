@@ -39,13 +39,21 @@ class ReportBase(pd_util.DataFrameToExcelMixin, pd_util.DataFrameToChartMixin):
             years = 1
             if 'years' in m:
                 years = m['years']
-            ss[m['group']+(display,)] = self.__load_series(name, y, q, years)
+            ss[m['group']+(display,)] = self.__load_series(m, y, q, years)
 
         return pd.DataFrame(ss)
 
-    def __load_series(self, metrics: str, y: int, q: int, count: int):
+    def __load_series(self, metrics: {}, y: int, q: int, count: int):
+        name = metrics['metrics']
         data = {}
         for y in range(y-count+1, y+1):
-            v = self.__stock.get_metrics(metrics, y, q)
+            v = self.__stock.get_metrics(name, y, q)
             data[f'{v.year}Q{v.quarter}'] = v.data
+        if q < 4:
+            if 'metrics_q' in metrics:
+                self.__load_metrics_q(data, metrics['metrics_q'], y, q)
         return data
+
+    def __load_metrics_q(self, data, name, y: int, q: int):
+        v = self.__stock.get_metrics(name, y, q)
+        data[f'{v.year}Q{v.quarter}'] = v.data

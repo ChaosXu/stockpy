@@ -78,6 +78,15 @@ def expr_div_ave_y(a, b):
                    Value(2)))
 
 
+def expr_div_ave(a, b, past_quarter):
+    ''' name = a/ ((b1 + b2)/2)
+    '''
+    return Div(Get(a),
+               Div(Sum(Get(b),
+                       Before(Get(b), past_quarter)),
+                   Value(2)))
+
+
 class MetricsMeta:
 
     def __init__(self, name: str, expr: Expr, display: str = ''):

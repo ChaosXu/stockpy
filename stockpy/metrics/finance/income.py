@@ -5,6 +5,7 @@ from stockpy.metrics.base import (MetricsMeta,
                                   metrics_y,
                                   metrics_y_y2y,
                                   metrics_y_r_y2y,
+                                  metrics_y2y,
                                   metrics_r_y2y)
 from stockpy import expr
 
@@ -150,6 +151,8 @@ def metrics():
 
         metrics_def('f_gross_profit',
                     expr_for_list(expr.Sub, 'revenue', 'oper_cost'), '毛利润'),
+        metrics_y2y('f_gross_profit', '毛利润'),
+        metrics_r_y2y('f_gross_profit', '毛利润'),
         metrics_y('f_gross_profit', '毛利润'),
         metrics_y_y2y('f_gross_profit', '毛利润'),
         metrics_y_r_y2y('f_gross_profit', '毛利润增长率'),
